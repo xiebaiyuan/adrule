@@ -84,11 +84,11 @@
     <logger name="com.zaxxer.hikari" additivity="false" level="error"/>
 
     <springProfile name="dev">
-        <logger name="org.fordes" additivity="true" level="debug"/>
+        <logger name="com.xiebaiyuan.adrule" additivity="true" level="debug"/>
     </springProfile>
 
     <springProfile name="prod">
-        <logger name="org.fordes" additivity="true" level="info"/>
+        <logger name="com.xiebaiyuan.adrule" additivity="true" level="info"/>
     </springProfile>
 
     <!--

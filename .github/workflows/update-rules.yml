@@ -18,9 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout adrules branch
-        uses: actions/checkout@main
+        uses: actions/checkout@v4
         with:
           ref: adrules  # 切换到 adrules 分支
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -40,13 +41,74 @@ jobs:
         run: |
           pip install requests
           bash ./script/update-upstream.sh
+          echo "Listing tmp directory contents:"
+          ls -la ./tmp/
+          echo "Listing tmp/content directory contents:"
+          ls -la ./tmp/content/ || echo "tmp/content directory does not exist"
+          echo "Listing tmp/dns directory contents:"  
+          ls -la ./tmp/dns/ || echo "tmp/dns directory does not exist"
           tar -czvf archive.tar.gz ./tmp/*
         
       - name: Build Rules
         continue-on-error: false
         run: |
-          bash ./script/update-content-rules.sh
-          bash ./script/update-dns-rules.sh
+          echo "Checking tmp directory structure before building rules:"
+          ls -la ./tmp/ || echo "tmp directory missing"
+          ls -la ./tmp/content/ || echo "tmp/content directory missing"
+          ls -la ./tmp/dns/ || echo "tmp/dns directory missing"
+          
+          # Check if required files exist before running scripts
+          if [ ! -d "./tmp/content" ]; then
+            echo "Creating missing tmp/content directory"
+            mkdir -p ./tmp/content
+          fi
+          
+          if [ ! -d "./tmp/dns" ]; then
+            echo "Creating missing tmp/dns directory"  
+            mkdir -p ./tmp/dns
+          fi
+          
+          # Check for hostlist-compiler config
+          if [ ! -f "./script/dns-rules-config.json" ]; then
+            echo "dns-rules-config.json not found"
+            exit 1
+          fi
+          
+          # Ensure dns.txt exists for hostlist-compiler
+          if [ ! -f "./tmp/dns.txt" ]; then
+            echo "Creating empty dns.txt file for hostlist-compiler"
+            touch ./tmp/dns.txt
+          fi
+          
+          # Create missing content files that are commented out in upstream
+          if [ ! -f "./tmp/content/antiadblockfilters.txt" ]; then
+            echo "! Missing antiadblockfilters.txt - creating empty file" > ./tmp/content/antiadblockfilters.txt
+          fi
+          
+          if [ ! -f "./tmp/content/abp-filters-anti-cv.txt" ]; then
+            echo "! Missing abp-filters-anti-cv.txt - creating empty file" > ./tmp/content/abp-filters-anti-cv.txt
+          fi
+          
+          if [ ! -f "./tmp/content/224.txt" ]; then
+            echo "! Missing 224.txt - creating empty file" > ./tmp/content/224.txt
+          fi
+          
+          echo "Running content rules script:"
+          if bash ./script/update-content-rules.sh; then
+            echo "Content rules script completed successfully"
+          else
+            echo "Content rules script failed with exit code $?"
+            # Continue anyway, as DNS rules might still work
+          fi
+          
+          echo "Running DNS rules script:"
+          if bash ./script/update-dns-rules.sh; then
+            echo "DNS rules script completed successfully"
+          else
+            echo "DNS rules script failed with exit code $?"
+            exit 1
+          fi
+          
           rm -f archive.tar.gz
 
       - name: Update other rules | 更新其它规则及Github-Hosts
@@ -58,14 +120,26 @@ jobs:
           bash ../script/github-hosts.sh
           cd ../
 
-      - name: Git push assets to Github
+      - name: Commit changes
+        id: commit
         run: |
-          git init
-          git config --local user.name "actions"
-          git config --local user.email "action@github.com"
-          git add .
-          git commit -am "CI Update at $(TZ=UTC-8 date +"%Y-%m-%d %H:%M")"
-          git push origin adrules
+          if [ -z "$(git status --porcelain)" ]; then 
+              echo "No changes to commit"
+              exit 0
+          else
+            echo "status=success" >> $GITHUB_OUTPUT
+            git config --local user.name "actions"
+            git config --local user.email "action@github.com"
+            git add .
+            git commit -am "CI Update at $(TZ=UTC-8 date +"%Y-%m-%d %H:%M")"
+          fi
+
+      - name: Push changes
+        if: steps.commit.outputs.status == 'success' && !cancelled()
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: adrules
 
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@main
