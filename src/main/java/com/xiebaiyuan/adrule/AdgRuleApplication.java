@@ -1,4 +1,4 @@
-package org.fordes.adg.rule;
+package com.xiebaiyuan.adrule;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
@@ -12,11 +12,11 @@ import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.fordes.adg.rule.config.OutputConfig;
-import org.fordes.adg.rule.config.RuleConfig;
-import org.fordes.adg.rule.enums.RuleType;
-import org.fordes.adg.rule.thread.LocalRuleThread;
-import org.fordes.adg.rule.thread.RemoteRuleThread;
+import com.xiebaiyuan.adrule.config.OutputConfig;
+import com.xiebaiyuan.adrule.config.RuleConfig;
+import com.xiebaiyuan.adrule.enums.RuleType;
+import com.xiebaiyuan.adrule.thread.LocalRuleThread;
+import com.xiebaiyuan.adrule.thread.RemoteRuleThread;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -52,7 +52,7 @@ public class AdgRuleApplication implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         TimeInterval interval = DateUtil.timer();
 
-        // 初始化，根据配置建立文件
+        // Initialize and create files based on configuration
         final Map<RuleType, Set<File>> typeFileMap = MapUtil.newHashMap();
         if (!outputConfig.getFiles().isEmpty()) {
             outputConfig.getFiles().forEach((fileName, types) -> {
@@ -61,18 +61,18 @@ public class AdgRuleApplication implements ApplicationRunner {
             });
         }
 
-        //使用布隆过滤器实现去重
+        // Use Bloom filter for deduplication
         BloomFilter<String> filter = BloomFilter
                 .create(Funnels.stringFunnel(Charset.defaultCharset()),
-                        1000000,    // 实际约20万，预留2.5倍空间
+                        1000000,    // Actual about 200k, reserve 2.5x space
                         0.01);
 
-        //远程规则
+        // Remote rules
         ruleConfig.getRemote().stream()
                 .filter(StrUtil::isNotBlank)
                 .map(URLUtil::normalize)
                 .forEach(e -> executor.execute(new RemoteRuleThread(e, typeFileMap, filter)));
-        //本地规则
+        // Local rules
         ruleConfig.getLocal().stream()
                 .filter(StrUtil::isNotBlank)
                 .map(e -> {

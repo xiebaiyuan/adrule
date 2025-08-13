@@ -1,4 +1,4 @@
-package org.fordes.adg.rule.config;
+package com.xiebaiyuan.adrule.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,12 +12,12 @@ import java.util.List;
 public class RuleConfig {
 
     /**
-     * 远程规则，http或https
+     * Remote rules, http or https
      */
     private List<String> remote;
 
     /**
-     * 本地规则
+     * Local rules
      */
     private List<String> local;
 }

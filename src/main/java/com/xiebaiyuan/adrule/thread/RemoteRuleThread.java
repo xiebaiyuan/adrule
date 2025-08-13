@@ -1,4 +1,4 @@
-package org.fordes.adg.rule.thread;
+package com.xiebaiyuan.adrule.thread;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.IoUtil;
@@ -6,7 +6,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.google.common.hash.BloomFilter;
 import lombok.extern.slf4j.Slf4j;
-import org.fordes.adg.rule.enums.RuleType;
+import com.xiebaiyuan.adrule.enums.RuleType;
 
 import java.io.File;
 import java.io.InputStream;

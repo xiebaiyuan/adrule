@@ -1,8 +1,8 @@
-package org.fordes.adg.rule.thread;
+package com.xiebaiyuan.adrule.thread;
 
 import cn.hutool.core.io.FileUtil;
 import com.google.common.hash.BloomFilter;
-import org.fordes.adg.rule.enums.RuleType;
+import com.xiebaiyuan.adrule.enums.RuleType;
 
 import java.io.File;
 import java.io.InputStream;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 本地规则处理
+ * Local rule processing
  *
  * @author ChengFengsheng on 2022/7/7
  */

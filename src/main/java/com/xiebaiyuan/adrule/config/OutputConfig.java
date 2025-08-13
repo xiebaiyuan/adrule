@@ -1,7 +1,7 @@
-package org.fordes.adg.rule.config;
+package com.xiebaiyuan.adrule.config;
 
 import lombok.Data;
-import org.fordes.adg.rule.enums.RuleType;
+import com.xiebaiyuan.adrule.enums.RuleType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 输出配置
+ * Output configuration
  *
  * @author Chengfs on 2022/9/19
  */
@@ -19,12 +19,12 @@ import java.util.Map;
 public class OutputConfig {
 
     /**
-     * 输出文件路径
+     * Output file path
      */
     private String path;
 
     /**
-     * 输出文件列表
+     * Output file list
      */
     private Map<String, List<RuleType>> files;
 }

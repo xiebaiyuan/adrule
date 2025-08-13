@@ -1,4 +1,4 @@
-package org.fordes.adg.rule;
+package com.xiebaiyuan.adrule;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
@@ -8,13 +8,12 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.fordes.adg.rule.enums.RuleType;
+import com.xiebaiyuan.adrule.enums.RuleType;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Map;
@@ -29,20 +28,19 @@ import static cn.hutool.core.thread.ThreadUtil.sleep;
 public class Util {
 
     /**
-     * 加锁将集合按行写入文件
+     * Write collection content to file with lock protection
      *
-     * @param file    目标文件
-     * @param content 内容集合
+     * @param file    target file
+     * @param content content collection
      */
     public static void write(File file, Collection<String> content) {
         if (CollUtil.isNotEmpty(content)) {
             try (RandomAccessFile accessFile = new RandomAccessFile(file, "rw");
                  FileChannel channel = accessFile.getChannel()) {
-                //加锁写入文件，如获取不到锁则休眠
-                FileLock fileLock = null;
+                // Lock file for writing, sleep if lock cannot be acquired
                 while (true) {
                     try {
-                        fileLock = channel.tryLock();
+                        channel.tryLock();
                         break;
                     } catch (Exception e) {
                         sleep(1000);
@@ -52,15 +50,15 @@ public class Util {
                 accessFile.write((CollUtil.join(content, StrUtil.CRLF)).getBytes(StandardCharsets.UTF_8));
                 accessFile.write(StrUtil.CRLF.getBytes(StandardCharsets.UTF_8));
             } catch (IOException ioException) {
-                log.error("写入文件出错，{} => {}", file.getPath(), ioException.getMessage());
+                log.error("Error writing to file, {} => {}", file.getPath(), ioException.getMessage());
             }
         }
     }
 
     /**
-     * 按路径创建文件，如存在则删除重新创建
+     * Create file by path, delete and recreate if exists
      *
-     * @param path 路径
+     * @param path file path
      * @return {@link File}
      */
     public static File createFile(String path) {
@@ -84,15 +82,15 @@ public class Util {
     }
 
     /**
-     * 校验内容是指定类型规则
+     * Validate if content is a rule of specified type
      *
-     * @param rule 内容
-     * @param type    规则
-     * @return 结果
+     * @param rule content
+     * @param type rule type
+     * @return validation result
      */
     public static boolean validRule(String rule, RuleType type) {
 
-        //匹配标识，有标识时必须匹配
+        // Match identifier, must match when identifier exists
         if (ArrayUtil.isNotEmpty(type.getIdentify())) {
             if (!StrUtil.containsAny(rule, type.getIdentify())) {
                 return false;
@@ -100,7 +98,7 @@ public class Util {
         }
 
         if (ArrayUtil.isNotEmpty(type.getMatch()) || ArrayUtil.isNotEmpty(type.getExclude())) {
-            //匹配正规则，需要至少满足一个
+            // Match positive rules, need to satisfy at least one
             if (ArrayUtil.isNotEmpty(type.getMatch())) {
                 boolean math = false;
                 for (String pattern : type.getMatch()) {
@@ -113,7 +111,7 @@ public class Util {
                 }
             }
 
-            //匹配负规则，需要全部不满足
+            // Match negative rules, need to satisfy none
             if (ArrayUtil.isNotEmpty(type.getExclude())) {
                 for (String pattern : type.getExclude()) {
                     if (ReUtil.contains(pattern, rule)) {
@@ -131,20 +129,20 @@ public class Util {
     }
 
     /**
-     * 清理rule字符串，去除空格和某些特定符号
+     * Clean rule string, remove spaces and certain specific symbols
      *
-     * @param content 内容
-     * @return 结果
+     * @param content content
+     * @return cleaned result
      */
     public static String clearRule(String content) {
         content = StrUtil.isNotBlank(content) ? StrUtil.trim(content) : StrUtil.EMPTY;
 
-        //有效性检测
+        // Validity check
         if (ReUtil.contains(Constant.EFFICIENT_REGEX, content)) {
             return StrUtil.EMPTY;
         }
 
-        //去除首尾 基础修饰符号
+        // Remove basic modifier symbols from start/end
         if (ReUtil.contains(Constant.BASIC_MODIFY_REGEX, content)) {
            content = ReUtil.replaceAll(content, Constant.BASIC_MODIFY_REGEX, StrUtil.EMPTY);
         }
