@@ -3,7 +3,7 @@
 @@||grpc.biliapi.net^$important
 
 #鸿蒙Next 手机
-#@||*.dbankcloud.*^$important
+@@||*.dbankcloud.*^$important
 @@||httpdns.platform.dbankcloud.com^$important
 
 @@||dbankcloud.com^$important
