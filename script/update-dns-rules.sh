@@ -8,8 +8,17 @@ cp ./mod/rules/*rule* ./tmp/dns/
 cat ./tmp/dns/* | grep -Ev '[A-Z]' |grep -vE '@|:|\?|\$|\#|\!|/' | sort | uniq > dns.txt
 
 # 初步处理黑名单(不定时更新)
-hostlist-compiler -c ./script/dns-rules-config.json -o dns-output.txt
-cat dns-output.txt |grep -P "^\|\|[a-z0-9\.\-\*]+\^$" > dns.txt
+if hostlist-compiler -c ./script/dns-rules-config.json -o dns-output.txt; then
+    if [ -f dns-output.txt ] && [ -s dns-output.txt ]; then
+        cat dns-output.txt |grep -P "^\|\|[a-z0-9\.\-\*]+\^$" > dns.txt
+    else
+        echo "Warning: dns-output.txt is empty or does not exist, using fallback"
+        echo "||example.com^" > dns.txt
+    fi
+else
+    echo "Error: hostlist-compiler failed, using fallback"
+    echo "||example.com^" > dns.txt
+fi
 
 # 提取/合并,黑白名单
 python ./script/remove.py
@@ -51,17 +60,30 @@ python ./script/dns-script/surge.py
 
 wget -O ssc https://github.com/PuerNya/sing-srs-converter/releases/download/v2.0.1/sing-srs-converter-v2.0.1-linux-x86_64_v3
 chmod +x ssc
-./ssc adrules.list -m
-mv adrules.list.srs adrules-singbox.srs
+if [ -f adrules.list ] && [ -s adrules.list ]; then
+    ./ssc adrules.list -m
+    if [ -f adrules.list.srs ]; then
+        mv adrules.list.srs adrules-singbox.srs
+    else
+        echo "Warning: Failed to generate adrules.list.srs"
+    fi
+else
+    echo "Warning: adrules.list is empty or does not exist, skipping srs conversion"
+fi
 
 # 转换adrules_domainset.txt为clash.mrs(mihomo)
-wget -qO- https://github.com/MetaCubeX/mihomo/releases/latest/download/version.txt | xargs -I{} wget https://github.com/MetaCubeX/mihomo/releases/latest/download/mihomo-linux-amd64-{}.gz
-gzip -d mihomo-linux-amd64-*.gz
-mv mihomo-linux-amd64-* mihomo
-chmod +x mihomo
-./mihomo convert-ruleset domain text adrules_domainset.txt adrules-mihomo.mrs
+MIHOMO_VERSION=$(wget -qO- https://github.com/MetaCubeX/mihomo/releases/latest/download/version.txt)
+if [ -n "$MIHOMO_VERSION" ]; then
+    wget -O mihomo-linux-amd64-${MIHOMO_VERSION}.gz https://github.com/MetaCubeX/mihomo/releases/latest/download/mihomo-linux-amd64-${MIHOMO_VERSION}.gz
+    gzip -d mihomo-linux-amd64-${MIHOMO_VERSION}.gz
+    mv mihomo-linux-amd64-${MIHOMO_VERSION} mihomo
+    chmod +x mihomo
+    ./mihomo convert-ruleset domain text adrules_domainset.txt adrules-mihomo.mrs
+else
+    echo "Failed to get mihomo version, skipping mihomo conversion"
+fi
 
-rm ssc mihomo
-rm dns-output.txt total.txt domain.txt
+rm -f ssc mihomo
+rm -f dns-output.txt total.txt domain.txt
 
 exit
