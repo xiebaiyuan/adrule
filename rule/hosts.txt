@@ -1,4 +1,4 @@
-# Update time: 2025-08-13 23:38:40
+# Update time: 2025-08-14 09:01:55
 # Repo URL: AdGuard/AdGuardHome ad filter rules merge/dedup
 
 ###################################   Merged/Deduped from the following rules   ####################################
@@ -2319,6 +2319,7 @@
 0.0.0.0 track.msadcenter.pwpn.com
 0.0.0.0 villepariis.fr
 0.0.0.0 viralvideos.tips
+0.0.0.0 united-domaine.tech
 0.0.0.0 ph-ad09.focalink.com
 0.0.0.0 adserver2.creative.com
 0.0.0.0 hlcc.ca
