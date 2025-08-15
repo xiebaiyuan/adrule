@@ -1,4 +1,4 @@
-# Update time: 2025-08-14 20:26:27
+# Update time: 2025-08-15 09:02:13
 # Repo URL: AdGuard/AdGuardHome ad filter rules merge/dedup
 
 ###################################   Merged/Deduped from the following rules   ####################################
@@ -6738,6 +6738,7 @@
 0.0.0.0 mr4evmd0r1.s.ad6media.fr
 0.0.0.0 un-ruly.fr
 0.0.0.0 takeoneaudio.jp
+0.0.0.0 intelcom-on.progressionlive.com
 0.0.0.0 plasmatv4free.com
 0.0.0.0 api.content.ad
 0.0.0.0 u432.77.spylog.com
