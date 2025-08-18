@@ -6,6 +6,11 @@
 @@||*.dbankcloud.*^$important
 @@||httpdns.platform.dbankcloud.com^$important
 
+#browserkernel
+@@||browserkernel.baidu.com^$important
+#mipush
+@@||api.xmpush.xiaomi.com^$important
+
 @@||dbankcloud.com^$important
 @@||grs.platform.dbankcloud.ru^$important
 @@||grs.platform.dbankcloud.com^$important
