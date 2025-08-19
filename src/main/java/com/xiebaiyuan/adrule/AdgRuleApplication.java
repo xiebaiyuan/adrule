@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.xiebaiyuan.adrule.config.OutputConfig;
 import com.xiebaiyuan.adrule.config.RuleConfig;
 import com.xiebaiyuan.adrule.enums.RuleType;
+import com.xiebaiyuan.adrule.stats.RuleStatsCollector;
 import com.xiebaiyuan.adrule.thread.LocalRuleThread;
 import com.xiebaiyuan.adrule.thread.RemoteRuleThread;
 import org.springframework.boot.ApplicationArguments;
@@ -25,6 +26,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -52,6 +55,17 @@ public class AdgRuleApplication implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         TimeInterval interval = DateUtil.timer();
 
+        // 初始化统计收集器
+        RuleStatsCollector statsCollector = new RuleStatsCollector();
+        
+        // 收集所有规则源
+        List<String> allSources = new ArrayList<>();
+        allSources.addAll(ruleConfig.getRemote());
+        allSources.addAll(ruleConfig.getLocal());
+        
+        // 开始统计
+        statsCollector.start(allSources);
+
         // Initialize and create files based on configuration
         final Map<RuleType, Set<File>> typeFileMap = MapUtil.newHashMap();
         if (!outputConfig.getFiles().isEmpty()) {
@@ -71,7 +85,7 @@ public class AdgRuleApplication implements ApplicationRunner {
         ruleConfig.getRemote().stream()
                 .filter(StrUtil::isNotBlank)
                 .map(URLUtil::normalize)
-                .forEach(e -> executor.execute(new RemoteRuleThread(e, typeFileMap, filter)));
+                .forEach(e -> executor.execute(new RemoteRuleThread(e, typeFileMap, filter, statsCollector)));
         // Local rules
         ruleConfig.getLocal().stream()
                 .filter(StrUtil::isNotBlank)
@@ -82,12 +96,20 @@ public class AdgRuleApplication implements ApplicationRunner {
                     }
                     return FileUtil.normalize(Constant.LOCAL_RULE_SUFFIX + File.separator + e);
                 })
-                .forEach(e -> executor.execute(new LocalRuleThread(e, typeFileMap, filter)));
+                .forEach(e -> executor.execute(new LocalRuleThread(e, typeFileMap, filter, statsCollector)));
 
         while (true) {
             if (executor.getActiveCount() > 0) {
                 ThreadUtil.safeSleep(1000);
             } else {
+                // 结束统计
+                statsCollector.finish();
+                
+                // 更新所有文件的头部信息
+                typeFileMap.values().stream()
+                    .flatMap(Set::stream)
+                    .forEach(file -> Util.updateFileHeader(file, statsCollector.build()));
+                
                 log.info("Done! {} ms", interval.intervalMs());
                 System.exit(0);
             }

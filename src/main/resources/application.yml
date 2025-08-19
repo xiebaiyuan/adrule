@@ -34,7 +34,7 @@ application:
       - 'https://raw.githubusercontent.com/xiebaiyuan/AdGuard-Rule/adrules/dns.txt' # name: catteam
       - 'https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/AdGuard/Advertising/Advertising.txt' # name: AdGuard_blackmatrix7 merged
       - 'https://raw.githubusercontent.com/zsakvo/AdGuard-Custom-Rule/master/rule/zhihu.txt' # name: Zhihu standard version
-      - 'https://raw.githubusercontents.com/timlu85/AdGuard-Home_Youtube-Adfilter/master/Youtube-Adfilter-Web.txt' # name: Youtube-Adfilter-Web
+      - 'https://raw.githubusercontent.com/timlu85/AdGuard-Home_Youtube-Adfilter/master/Youtube-Adfilter-Web.txt' # name: Youtube-Adfilter-Web
       - 'https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule.txt' # name: Autumn Wind ad rules, targeting Android ads
       # KoolProxy rules
       - 'https://github.com/ilxp/koolproxy/raw/main/rules/koolproxy.txt' # name: static whitelist rules

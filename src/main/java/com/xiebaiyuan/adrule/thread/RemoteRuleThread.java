@@ -7,6 +7,7 @@ import cn.hutool.http.HttpResponse;
 import com.google.common.hash.BloomFilter;
 import lombok.extern.slf4j.Slf4j;
 import com.xiebaiyuan.adrule.enums.RuleType;
+import com.xiebaiyuan.adrule.stats.RuleStatsCollector;
 
 import java.io.File;
 import java.io.InputStream;
@@ -18,8 +19,8 @@ import java.util.Set;
 public class RemoteRuleThread extends AbstractRuleThread {
 
 
-    public RemoteRuleThread(String ruleUrl, Map<RuleType, Set<File>> typeFileMap, BloomFilter<String> filter) {
-        super(ruleUrl, typeFileMap, filter);
+    public RemoteRuleThread(String ruleUrl, Map<RuleType, Set<File>> typeFileMap, BloomFilter<String> filter, RuleStatsCollector statsCollector) {
+        super(ruleUrl, typeFileMap, filter, statsCollector);
     }
 
     @Override
