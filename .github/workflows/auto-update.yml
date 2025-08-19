@@ -40,8 +40,9 @@ jobs:
           else
             echo "status=success" >> $GITHUB_OUTPUT
             git add .
-            git config --local user.email "xiebaiyuan@139.com"
-            git config --local user.name "xiebaiyuan"
+            # Use GitHub Actions bot identity instead of personal account
+            git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
             git commit -m "CI Updated at $(date +'%Y-%m-%d %H:%M:%S')" -a
           fi
 
