@@ -74,7 +74,7 @@ content=(
   #uBlock filters – Resource abuse
   "https://cdn.statically.io/gh/uBlockOrigin/uAssetsCDN/main/filters/resource-abuse.txt"
   #uBlock filters – Unbreak
-  "https://gitcdn.link/cdn/uBlockOrigin/uAssetsCDN/main/filters/unbreak.txt"
+  # "https://gitcdn.link/cdn/uBlockOrigin/uAssetsCDN/main/filters/unbreak.txt"
   #AdGuard CNAME disguised tracker list
   "https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master/data/combined_disguised_trackers.txt"
   #AdditionalFiltersCN
