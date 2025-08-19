@@ -185,7 +185,7 @@ dns=(
   #XingShao AdRules DNS List
   "https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt"
   #catteam (自己的规则)
-  "https://raw.githubusercontent.com/xiebaiyuan/AdGuard-Rule/adrules/dns.txt"
+  #"https://raw.githubusercontent.com/xiebaiyuan/AdGuard-Rule/adrules/dns.txt"
   ### PCDN rules ###
   #fuck pcdn
   "https://thhbdd.github.io/Block-pcdn-domains/ban.txt"
