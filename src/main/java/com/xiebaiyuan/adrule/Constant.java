@@ -98,6 +98,11 @@ public class Constant {
     public static final String BASIC_MODIFY_REGEX = "^@@\\|\\||^\\|\\||^@@|\\$important$|\\s#[^#]*$";
     
     /**
+     * AdGuard Home regex rule patterns
+     */
+    public static final String ADG_REGEX_PATTERN = "^/.*/$|^/\\^.*\\$/$|^/\\^.*/$|^/.*\\$/$";
+    
+    /**
      * Additional check for common programming/HTML constructs that should not be in rules
      */
     public static final String CODE_FRAGMENT_REGEX = "function\\s+\\w+\\s*\\(|\\breturn\\s+|\\bconsole\\.log|\\bvar\\s+|\\blet\\s+|\\bconst\\s+|\\bif\\s*\\(|\\belse\\s*\\{|\\bfor\\s*\\(|\\bwhile\\s*\\(|<\\/script>|<\\/div>|<\\/body>|<\\/html>|xhr\\.send\\(\\)|pageOptions|\\];?\\s*$";

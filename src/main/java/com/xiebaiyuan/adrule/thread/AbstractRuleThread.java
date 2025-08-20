@@ -78,21 +78,19 @@ public abstract class AbstractRuleThread implements Runnable {
                                 statsCollector.incrementHostsRules(); // 统计Hosts规则
                                 log.debug("Hosts rule: {}", line);
 
+                            } else if (Util.validRule(content, RuleType.REGEX)) {
+                                // 直接检查是否为正则表达式规则
+                                typeFileMap.getOrDefault(RuleType.REGEX, Collections.emptySet())
+                                        .forEach(item -> Util.safePut(fileDataMap, item, line));
+                                statsCollector.incrementRegexRules(); // 统计正则规则
+                                log.debug("Regex rule: {}", line);
+
                             } else if (Util.validRule(content, RuleType.MODIFY)) {
-
-                                if (Util.validRule(content, RuleType.REGEX)) {
-                                    typeFileMap.getOrDefault(RuleType.REGEX, Collections.emptySet())
-                                            .forEach(item -> Util.safePut(fileDataMap, item, line));
-                                    statsCollector.incrementRegexRules(); // 统计正则规则
-                                    log.debug("Regex rule: {}", line);
-
-                                } else {
-
-                                    typeFileMap.getOrDefault(RuleType.MODIFY, Collections.emptySet())
-                                            .forEach(item -> Util.safePut(fileDataMap, item, line));
-                                    statsCollector.incrementModifyRules(); // 统计修饰符规则
-                                    log.debug("Modifier rule: {}", line);
-                                }
+                                // 如果不是正则表达式规则但是修饰符规则
+                                typeFileMap.getOrDefault(RuleType.MODIFY, Collections.emptySet())
+                                        .forEach(item -> Util.safePut(fileDataMap, item, line));
+                                statsCollector.incrementModifyRules(); // 统计修饰符规则
+                                log.debug("Modifier rule: {}", line);
                             } else {
                                 invalid.getAndSet(invalid.get() + 1);
                                 statsCollector.incrementInvalidRules(); // 统计无效规则
