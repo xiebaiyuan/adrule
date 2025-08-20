@@ -41,9 +41,9 @@ jobs:
             echo "status=success" >> $GITHUB_OUTPUT
             git add .
             # Use GitHub Actions bot identity instead of personal account
-            git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git config --local user.name "github-actions[bot]"
-            git commit -m "CI Updated at $(date +'%Y-%m-%d %H:%M:%S')" -a
+            git config --local user.email "action@github.com"
+            git config --local user.name "actions"
+            git commit -m "Rules Updated at $(date +'%Y-%m-%d %H:%M:%S') From UpStream" -a
           fi
 
       - name: GitHub Push
