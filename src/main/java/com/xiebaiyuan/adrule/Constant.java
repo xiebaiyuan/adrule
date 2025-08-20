@@ -76,14 +76,30 @@ public class Constant {
     public static final String LOCAL_RULE_SUFFIX = ROOT_PATH + File.separator + "rule";
 
     /**
-     * Basic validity check regex: lines starting with !, lines wrapped with [], lines starting with special # markers are considered invalid rules
+     * Basic validity check regex: 
+     * - lines starting with !
+     * - lines wrapped with []
+     * - lines starting with special # markers (except ##, #@, #%, #$)
+     * - HTML tags (<script>, <noscript>, etc.)
+     * - JavaScript code fragments (function, return, console)
+     * - CSS class/id selectors starting with . or #
+     * - JSON/JavaScript structural elements (}, {, ], [)
+     * - Common website footer text (Copyright, Privacy Policy, etc.)
+     * - Domain sales messages
+     * - Long separator lines (e.g., ############...)
+     * are considered invalid rules
      */
-    public static final String EFFICIENT_REGEX = "^!|^#[^#,^@,^%,^\\$]|^\\[.*\\]$";
+    public static final String EFFICIENT_REGEX = "^!|^#[^#,^@,^%,^\\$]|^\\[.*\\]$|^<.*>$|^\\s*</.*>|^\\s*<script|^\\s*<noscript|^\\s*function\\s+|^\\s*return\\s+|^\\s*console\\.|^\\s*\\{\\s*$|^\\s*\\}\\s*$|^\\s*\\[\\s*$|^\\s*\\]\\s*$|^\\s*\\};?\\s*$|\\bCopyright\\b|\\bPrivacy Policy\\b|\\bAll Rights Reserved\\b|^#{10,}$|\\s*购买该域名|More domains at|Seo\\.Domains";
 
     /**
      * Regex to remove basic modifier symbols from start/end for rule classification
      * Includes: @@, ||, @@||, / at start, $important, / at end
      */
     public static final String BASIC_MODIFY_REGEX = "^@@\\|\\||^\\|\\||^@@|\\$important$|\\s#[^#]*$";
+    
+    /**
+     * Additional check for common programming/HTML constructs that should not be in rules
+     */
+    public static final String CODE_FRAGMENT_REGEX = "function\\s+\\w+\\s*\\(|\\breturn\\s+|\\bconsole\\.log|\\bvar\\s+|\\blet\\s+|\\bconst\\s+|\\bif\\s*\\(|\\belse\\s*\\{|\\bfor\\s*\\(|\\bwhile\\s*\\(|<\\/script>|<\\/div>|<\\/body>|<\\/html>|xhr\\.send\\(\\)|pageOptions|\\];?\\s*$";
 
 }

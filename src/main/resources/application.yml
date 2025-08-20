@@ -16,7 +16,7 @@ application:
       - 'https://cdn.jsdelivr.net/gh/durablenapkin/scamblocklist/adguard.txt' # Scam Blocklist
       - 'https://someonewhocares.org/hosts/zero/hosts' # Dan Pollock's List
       - 'https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&showintro=1&mimetype=plaintext' # Peter Lowe's List
-      - 'https://abp.oisd.nl/basic/' # OISD Blocklist Basic
+      # - 'https://abp.oisd.nl/basic/' # OISD Blocklist Basic
       - 'https://cdn.jsdelivr.net/gh/crazy-max/WindowsSpyBlocker/data/hosts/spy.txt' # WindowsSpyBlocker
       - 'https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts' # DaSheng Ad Clean
       - 'https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_2_Base/filter.txt' # adguard base
