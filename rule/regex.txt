@@ -1,0 +1,167 @@
+################################################################################
+#      ___    ____        ____          _          _____               _       #
+#     / _ \  |  _ \      |  _ \  _   _ | |   ___  | ____|  _ __    __ _ (_) _ __ #
+#    | |_| | | | | |     | |_) || | | || |  / _ \ |  _|  | '_ \  / _` || || '_ \#
+#    |  _  | | |_| |     |  _ < | |_| || | |  __/ | |___ | | | || (_| || || | | |#
+#    |_| |_| |____/      |_| \_\ \__,_||_|  \___| |_____||_| |_| \__, ||_||_| |_|#
+#                                                                |___/          #
+################################################################################
+#                                                                              #
+#                    🚀 AdGuard/AdGuardHome Rule Engine 🚀                     #
+#                   High-Performance Ad Filtering Rule Aggregator             #
+#                                                                              #
+################################################################################
+#                                                                              #
+# ⚡ Project Information                                                      #
+# Project Name: ADG-Rule Engine                                                #
+# Description: Multi-source ad filtering rule aggregation & deduplication     #
+# License: MIT License                                                         #
+#                                                                              #
+# ⏰ Generation Information                                                   #
+# Generated Time: 2025-08-20 17:20:50                                       #
+# Processing Time: 14138ms                                         #
+# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1462MB            #
+#                                                                              #
+# 📊 Statistics Information                                                   #
+# Upstream Sources: 37 sources                                      #
+# Total Rules: 620013 rules                                          #
+# Domain Rules: 271050 rules                                         #
+# Regex Rules: 65 rules                                          #
+# Hosts Rules: 20340 rules                                          #
+# Modifier Rules: 328558 rules                                       #
+# AdGuardHome Rules: 271115 rules                                     #
+# Deduplication Rate: 51.32%                                        #
+#                                                                              #
+# 🔧 Technical Features                                                       #
+# ✓ Bloom Filter Deduplication                                                #
+# ✓ Multi-threaded Processing                                                 #
+# ✓ Intelligent Rule Classification                                           #
+# ✓ Memory Optimized Algorithm                                                #
+# ✓ Automatic Error Recovery                                                  #
+#                                                                              #
+# 🌐 Supported Rule Formats                                                   #
+# • AdGuard Format                                                            #
+# • AdBlock Plus Format                                                       #
+# • Hosts File Format                                                         #
+# • Regular Expression Format                                                 #
+# • Domain List Format                                                        #
+#                                                                              #
+# 📋 Upstream Sources List                                                    #
+#  1. https://cdn.jsdelivr.net/gh/hoshsadiq/adblock-nocoin-list/hosts.txt    #
+#  2. https://cdn.jsdelivr.net/gh/durablenapkin/scamblocklist/adguard.txt    #
+#  3. https://someonewhocares.org/hosts/zero/hosts                           #
+#  4. https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplu... #
+#  5. https://cdn.jsdelivr.net/gh/crazy-max/WindowsSpyBlocker/data/hosts/... #
+#  6. https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts        #
+#  7. https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/maste... #
+#  8. https://anti-ad.net/easylist.txt                                       #
+#  9. https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master... #
+# 10. https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt     #
+# 11. https://raw.githubusercontent.com/Crystal-RainSlide/AdditionalFilte... #
+# 12. https://raw.githubusercontent.com/banbendalao/ADgk/master/ADgk.txt     #
+# 13. https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/... #
+# 14. https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/... #
+# 15. https://raw.githubusercontent.com/o0HalfLife0o/list/master/ad.txt      #
+# 16. https://adaway.org/hosts.txt                                           #
+# 17. https://easylist-downloads.adblockplus.org/antiadblockfilters.txt      #
+# 18. https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt       #
+# 19. https://raw.githubusercontent.com/xiebaiyuan/adrule/refs/heads/adru... #
+# 20. https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rul... #
+# 21. https://raw.githubusercontent.com/zsakvo/AdGuard-Custom-Rule/master... #
+# 22. https://raw.githubusercontent.com/timlu85/AdGuard-Home_Youtube-Adfi... #
+# 23. https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/mai... #
+# 24. https://github.com/ilxp/koolproxy/raw/main/rules/koolproxy.txt         #
+# 25. https://github.com/ilxp/koolproxy/raw/main/rules/daily.txt             #
+# 26. https://github.com/ilxp/koolproxy/raw/main/rules/steven.txt            #
+# 27. https://cdn.jsdelivr.net/gh/uBlockOrigin/uAssetsCDN@main/filters/fi... #
+# 28. https://ublockorigin.pages.dev/filters/badware.txt                     #
+# 29. https://raw.githubusercontent.com/uBlockOrigin/uAssetsCDN/refs/head... #
+# 30. https://ublockorigin.github.io/uAssets/filters/quick-fixes.txt         #
+# 31. https://cdn.statically.io/gh/uBlockOrigin/uAssetsCDN/main/filters/r... #
+# 32. https://gitcdn.link/cdn/uBlockOrigin/uAssetsCDN/main/filters/unbrea... #
+# 33. https://filters.adtidy.org/extension/ublock/filters/11.txt             #
+# 34. https://thhbdd.github.io/Block-pcdn-domains/ban.txt                    #
+# 35. https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/... #
+# 36. https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/... #
+# 37. mylist.txt                                                             #
+#                                                                              #
+# ⚠️  IMPORTANT DISCLAIMER                                                    #
+# ALL RULES ARE SOURCED FROM UPSTREAM PROVIDERS AND NOT CREATED BY US         #
+# THIS COLLECTION IS FOR EDUCATIONAL AND LEARNING PURPOSES ONLY              #
+# WE DO NOT TAKE RESPONSIBILITY FOR ANY ISSUES CAUSED BY USING THESE RULES    #
+# RULES ARE AUTO-UPDATED EVERY 12 HOURS FROM PUBLIC FILTER LISTS             #
+# IF YOU ENCOUNTER FALSE POSITIVES, PLEASE HANDLE THEM MANUALLY               #
+#                                                                              #
+# 🎯 Usage Instructions                                                       #
+# AdGuard Home: Add this file's URL to your filter lists                     #
+# AdGuard Client: Import this file into user rules                           #
+# Pi-hole: Import domain rules into blacklist                                #
+# Other Software: Choose appropriate file format based on support            #
+#                                                                              #
+################################################################################
+
+/.*p2p.*douyucdn\.cn/
+/.*p2p.*qq\.com/
+/.*pcdn.*biliapi.net/
+/.*pcdn.*biliapi\.net/
+/.*pcdn.*youku.com/
+/.*pcdn.*youku\.com/
+/193.200.64.24:/
+/62.76.25.2(7|8)/
+/99rejs/
+/Adloader/
+/[a-z]+\d+\.cnzz\./
+/^(\S+\.)?adservice\.google\./
+/^(\S+\.)?analytics(\-|\.)/
+/^(\S+\.)?counter(\-|\.)/
+/^(\S+\.)?pixels?\./
+/^(\S+\.)?s?metrics\./
+/^(\S+\.)?syma[a-z]\.cn$/
+/^(\S+\.)?tongji\./
+/^(\S+\.)?toolbar\./
+/^(\S+\.)?widgets?\./
+/^(\S+\.)?xpj[0-9]\.net$/
+/^(\S+\.)?ylx-[0-9].com$/
+/^.+stat\.kugou\.com/
+/^admarvel\./
+/^admaster\./
+/^adsage\./
+/^adsensor\./
+/^adservice\./
+/^adsmogo\./
+/^adsrvmedia\./
+/^adsserving\./
+/^adsystem\./
+/^adwords\./
+/^applovin\./
+/^appsflyer\./
+/^domob\./
+/^duomeng\./
+/^dwtrack\./
+/^guanggao\./
+/^omgmta\./
+/^omgmtaw\./
+/^omniture\./
+/^openx\./
+/^partnerad\./
+/^pingfore\./
+/^socdm\./
+/^supersonicads\./
+/^wlmonitor\./
+/^zjtoolbar\./
+/community-ad/
+/http:\/\/[^.]*\.m\.22ff\.com/
+/http:\/\/[^/]*\/js\/dl\d+\.js/
+/http:\/\/[^/]*\/vip\/xx\d\.js/
+/http:\/\/[^/]*\/xxgg\/book\.js/
+/http:\/\/[^\.]*\.m\.biqu/
+/http:\/\/[a-w]*\.m\.xbiquge520\.com/
+/http:\/\/afpmm\.alicdn\.com\/g\/mm\/afp-cdn\/JS\/\w.js/
+/http:\/\/m.omanhua.com\/\d\.js/
+/http:\/\/m\.elanp\.com\/img\/\w\.js/
+/http:\/\/td\.xue1\.ca/\w\.js/
+/http:\/\/www\.46bk\.com\/[^.\/]*\.js/
+/http:\/\/www\.555zw\.com\/mama\/\w\.js/
+/http:\/\/www\.afxfs\.com\/scripts\/\d+\.js/
+/http:\/\/www\.yaerwen\.com\/5200js\/[^./]*\.js/
+@@/:\/\/.*[.]wp[.]pl\/[a-z0-9_]+[.][a-z]+[/:&?]?/
