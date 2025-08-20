@@ -103,6 +103,19 @@ public class Constant {
     public static final String ADG_REGEX_PATTERN = "^/.*/$|^/\\^.*\\$/$|^/\\^.*/$|^/.*\\$/$";
     
     /**
+     * AdGuard Home regex rule patterns with modifiers ($denyallow, $dnstype, etc.)
+     */
+    public static final String ADG_REGEX_WITH_MODIFIER_PATTERN = "^/.*/(\\$[\\w,=-]+.*)?$";
+    
+    /**
+     * Common AdGuard Home modifiers
+     */
+    public static final String[] ADG_MODIFIERS = new String[] {
+        "denyallow", "dnstype", "important", "client", "app", "ctag", 
+        "dnsrewrite", "badfilter", "invalid", "servfail", "nxdomain", "noerror"
+    };
+    
+    /**
      * Additional check for common programming/HTML constructs that should not be in rules
      */
     public static final String CODE_FRAGMENT_REGEX = "function\\s+\\w+\\s*\\(|\\breturn\\s+|\\bconsole\\.log|\\bvar\\s+|\\blet\\s+|\\bconst\\s+|\\bif\\s*\\(|\\belse\\s*\\{|\\bfor\\s*\\(|\\bwhile\\s*\\(|<\\/script>|<\\/div>|<\\/body>|<\\/html>|xhr\\.send\\(\\)|pageOptions|\\];?\\s*$";

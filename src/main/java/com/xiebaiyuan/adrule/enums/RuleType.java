@@ -24,7 +24,7 @@ public enum RuleType {
      * Regex rules, including modifier rules
      */
     REGEX("Regex rules", true, null, 
-            new String[]{"^/.*/$", "^/\\^.*\\$/$", "^/\\^.*/$", "^/.*\\$/$"}, // 添加对AdGuard Home格式正则表达式的匹配
+            new String[]{"^/.*/$", "^/\\^.*\\$/$", "^/\\^.*/$", "^/.*\\$/$", "^/.*(/|/)\\$[\\w,=-]+.*$"}, // 添加对带修饰符的AdGuard Home正则表达式的匹配
             new String[]{"[/,#,&,=,:]", "^[\\*,@,\\-,_,\\.,&,\\?]","[\\$][^\\s]", "[\\^][^\\s]"}),
 
 
