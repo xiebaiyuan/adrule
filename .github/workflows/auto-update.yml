@@ -32,6 +32,26 @@ jobs:
       - name: Run Jar
         run:  java -jar ./target/adg-rule-1.0.0.jar
 
+      - name: Generate Commit Message
+        id: genmsg
+        run: |
+          STATS_FILE="rule/all.txt"
+          if [ ! -f "$STATS_FILE" ]; then
+            echo "msg=chore(rules): automated update (stats file missing)" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          extract() { grep -m1 "^# $1" "$STATS_FILE" | awk -F': ' '{print $2}' | awk '{print $1}'; }
+          total=$(extract "Total Rules:")
+            domain=$(extract "Domain Rules:")
+            regex=$(extract "Regex Rules:")
+            hosts=$(extract "Hosts Rules:")
+            modifier=$(extract "Modifier Rules:")
+            adgh=$(extract "AdGuardHome Rules:")
+            dedupe=$(grep -m1 "^# Deduplication Rate:" "$STATS_FILE" | awk -F': ' '{print $2}' | awk '{print $1}')
+          timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          msg="chore(rules): automated sync | Total=${total} Domain=${domain} Regex=${regex} Hosts=${hosts} Modifier=${modifier} AdGH=${adgh} Dedupe=${dedupe} | ${timestamp}"
+          echo "msg=${msg}" >> $GITHUB_OUTPUT
+
       - name: Commit Changes
         id: commit
         run: |
@@ -43,7 +63,12 @@ jobs:
             # Use GitHub Actions bot identity instead of personal account
             git config --local user.email "action@github.com"
             git config --local user.name "actions"
-            git commit -m "Rules Updated at $(date +'%Y-%m-%d %H:%M:%S')" -a
+            # Commit with enriched professional message containing rule statistics
+            if [ -n "${{ steps.genmsg.outputs.msg }}" ]; then
+              git commit -m "${{ steps.genmsg.outputs.msg }}" -a
+            else
+              git commit -m "chore(rules): automated update" -a
+            fi
           fi
 
       - name: GitHub Push
