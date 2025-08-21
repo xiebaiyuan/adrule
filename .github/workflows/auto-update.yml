@@ -43,7 +43,7 @@ jobs:
             # Use GitHub Actions bot identity instead of personal account
             git config --local user.email "action@github.com"
             git config --local user.name "actions"
-            git commit -m "Rules Updated at $(date +'%Y-%m-%d %H:%M:%S') From UpStream" -a
+            git commit -m "Rules Updated at $(date +'%Y-%m-%d %H:%M:%S')" -a
           fi
 
       - name: GitHub Push
