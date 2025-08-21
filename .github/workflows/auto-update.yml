@@ -37,7 +37,7 @@ jobs:
         run: |
           STATS_FILE="rule/all.txt"
           if [ ! -f "$STATS_FILE" ]; then
-            echo "msg=chore(rules): automated update (stats file missing)" >> $GITHUB_OUTPUT
+            echo "msg=automated update (stats file missing)" >> $GITHUB_OUTPUT
             exit 0
           fi
           extract() { grep -m1 "^# $1" "$STATS_FILE" | awk -F': ' '{print $2}' | awk '{print $1}'; }
@@ -49,7 +49,7 @@ jobs:
             adgh=$(extract "AdGuardHome Rules:")
             dedupe=$(grep -m1 "^# Deduplication Rate:" "$STATS_FILE" | awk -F': ' '{print $2}' | awk '{print $1}')
           timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          msg="chore(rules): automated sync | Total=${total} Domain=${domain} Regex=${regex} Hosts=${hosts} Modifier=${modifier} AdGH=${adgh} Dedupe=${dedupe} | ${timestamp}"
+          msg="automated sync | Total=${total} Domain=${domain} Regex=${regex} Hosts=${hosts} Modifier=${modifier} AdGH=${adgh} Dedupe=${dedupe} | ${timestamp}"
           echo "msg=${msg}" >> $GITHUB_OUTPUT
 
       - name: Commit Changes
