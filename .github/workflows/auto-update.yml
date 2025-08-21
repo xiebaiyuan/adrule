@@ -1,3 +1,5 @@
+---
+# yamllint disable rule:line-length
 name: Update Filters
 on:
   push:
@@ -30,14 +32,14 @@ jobs:
         run: mvn -B package
 
       - name: Run Jar
-        run:  java -jar ./target/adg-rule-1.0.0.jar
+        run: java -jar ./target/adg-rule-1.0.0.jar
 
       - name: Generate Commit Message
         id: genmsg
         run: |
           STATS_FILE="rule/all.txt"
           if [ ! -f "$STATS_FILE" ]; then
-            echo "msg=automated update (stats file missing)" >> $GITHUB_OUTPUT
+            echo "msg=rules: update (stats file missing)" >> $GITHUB_OUTPUT
             exit 0
           fi
           extract() { grep -m1 "^# $1" "$STATS_FILE" | awk -F': ' '{print $2}' | awk '{print $1}'; }
@@ -49,13 +51,25 @@ jobs:
             adgh=$(extract "AdGuardHome Rules:")
             dedupe=$(grep -m1 "^# Deduplication Rate:" "$STATS_FILE" | awk -F': ' '{print $2}' | awk '{print $1}')
           timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          msg="automated sync | Total=${total} Domain=${domain} Regex=${regex} Hosts=${hosts} Modifier=${modifier} AdGH=${adgh} Dedupe=${dedupe} | ${timestamp}"
+          # 纯文本前缀（无 emoji），可自行增删；随机挑选一个
+          prefixes=(
+            "rules:update"
+            "rules:sync"
+            "rules:refresh"
+            "rules:autogen"
+            "rules:daily"
+            "rules:stats"
+          )
+          idx=$((RANDOM % ${#prefixes[@]}))
+          prefix=${prefixes[$idx]}
+          # 提交信息格式：<prefix>: Total=... (Dedupe xx%) @UTC
+          msg="${prefix} @${timestamp} | Total=${total} Domain=${domain} Regex=${regex} Hosts=${hosts} Modifier=${modifier} AdGH=${adgh} Dedupe=${dedupe}% "
           echo "msg=${msg}" >> $GITHUB_OUTPUT
 
       - name: Commit Changes
         id: commit
         run: |
-          if [ -z "$(git status --porcelain)" ]; then 
+          if [ -z "$(git status --porcelain)" ]; then
               exit 0
           else
             echo "status=success" >> $GITHUB_OUTPUT
