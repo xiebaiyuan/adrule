@@ -110,6 +110,10 @@ public class AdgRuleApplication implements ApplicationRunner {
                     .flatMap(Set::stream)
                     .forEach(file -> Util.updateFileHeader(file, statsCollector.build()));
                 
+                // 提取域名列表
+                log.info("开始提取域名黑白名单...");
+                DomainListExtractor.extractDomainLists();
+                
                 log.info("Done! {} ms", interval.intervalMs());
                 System.exit(0);
             }
