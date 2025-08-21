@@ -1,14 +1,77 @@
 #!/bin/bash
+set -euo pipefail
+echo "[debug] start update-dns-rules.sh"
 LC_ALL='C'
+
+# Integrate upstream downloaded lists (via update-upstream.sh) into dns.txt build.
+ROOT_DIR="$(pwd)"
+
+# In CI environment, tmp dirs are pre-populated by update-upstream.sh
+# Only clean if running locally or explicitly requested
+if [ "${CLEAN_TMP:-auto}" = "1" ] || ([ "${CLEAN_TMP:-auto}" = "auto" ] && [ "${SKIP_UPSTREAM:-0}" = "1" ]); then
+    echo "[debug] cleaning temp dirs..."
+    rm -rf ./tmp/dns ./tmp/content
+fi
+
+# Download upstream unless SKIP_UPSTREAM=1
+if [ "${SKIP_UPSTREAM:-0}" != "1" ]; then
+    echo "[info] Downloading upstream lists..."
+    ( bash ./script/update-upstream.sh || echo "[warn] update-upstream.sh failed; proceeding with local rules only" )
+else
+    echo "[info] Skipping upstream download (SKIP_UPSTREAM=1)"
+fi
+
+cd "$ROOT_DIR"
 
 update_time="$(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)"
 
+mkdir -p ./tmp/dns
+echo "[debug] copying rule sources..."
 cp ./mod/rules/*rule* ./tmp/dns/
+echo "[debug] rule sources copied: $(ls -1 ./tmp/dns | wc -l) files"
 
-cat ./tmp/dns/* | grep -Ev '[A-Z]' |grep -vE '@|:|\?|\$|\#|\!|/' | sort | uniq > dns.txt
+echo "[debug] building initial dns.txt from local rules only..."
+cat ./tmp/dns/*rule* | grep -Ev '[A-Z]' |grep -vE '@|:|\?|\$|\#|\!|/' | sort | uniq > dns.txt || echo "[warn] initial build step produced no output"
+echo "[debug] initial dns.txt lines: $(wc -l < dns.txt || echo 0)"
+
+# Extract domains from UPSTREAM downloaded lists only (not local rules)
+# Only process if we actually downloaded upstream content
+if [ "${SKIP_UPSTREAM:-0}" != "1" ] && [ -d ./tmp/content ]; then
+    echo "[debug] extracting upstream domains from downloaded content..."
+    python3 ./script/extract_upstream_domains.py ./tmp/content ./tmp/dns > ./tmp/upstream-domains.txt 2>/dev/null || true
+    if [ -f ./tmp/upstream-domains.txt ] && [ -s ./tmp/upstream-domains.txt ]; then
+        upstream_count=$(wc -l < ./tmp/upstream-domains.txt 2>/dev/null || echo 0)
+        echo "[debug] extracted $upstream_count upstream domains"
+        echo "[debug] merging upstream domains..."
+        cat ./tmp/upstream-domains.txt >> dns.txt
+        combined_lines=$(wc -l < dns.txt || echo 0)
+        echo "[debug] combined dns.txt lines: $combined_lines"
+    else
+        echo "[debug] no upstream domains extracted"
+    fi
+else
+    echo "[debug] skipping upstream extraction (no download or SKIP_UPSTREAM=1)"
+fi
+
+# Download hostlist-compiler if not available
+if ! command -v hostlist-compiler >/dev/null 2>&1; then
+    echo "[info] hostlist-compiler not found, downloading..."
+    HOSTLIST_VERSION="v1.13.9"
+    case "$(uname -s)" in
+        Darwin) HOSTLIST_ARCH="darwin-amd64" ;;
+        Linux) HOSTLIST_ARCH="linux-amd64" ;;
+        *) echo "[warn] unsupported OS for auto-download, using fallback"; HOSTLIST_ARCH="" ;;
+    esac
+    if [ -n "$HOSTLIST_ARCH" ]; then
+        curl -sL "https://github.com/AdguardTeam/HostlistCompiler/releases/download/${HOSTLIST_VERSION}/hostlist-compiler-${HOSTLIST_ARCH}" -o ./hostlist-compiler
+        chmod +x ./hostlist-compiler
+        export PATH="$(pwd):$PATH"
+        echo "[info] hostlist-compiler downloaded and added to PATH"
+    fi
+fi
 
 # 初步处理黑名单(不定时更新)
-if hostlist-compiler -c ./script/dns-rules-config.json -o dns-output.txt; then
+if command -v hostlist-compiler >/dev/null 2>&1 && hostlist-compiler -c ./script/dns-rules-config.json -o dns-output.txt; then
     if [ -f dns-output.txt ] && [ -s dns-output.txt ]; then
         cat dns-output.txt |grep -P "^\|\|[a-z0-9\.\-\*]+\^$" > dns.txt
     else
@@ -16,17 +79,29 @@ if hostlist-compiler -c ./script/dns-rules-config.json -o dns-output.txt; then
         echo "||example.com^" > dns.txt
     fi
 else
-    echo "Error: hostlist-compiler failed, using fallback"
-    echo "||example.com^" > dns.txt
+        echo "Error: hostlist-compiler failed, using fallback"
+        if [ ! -s dns.txt ]; then
+            echo "||example.com^" > dns.txt
+        else
+            echo "[warn] keeping pre-built dns.txt (no hostlist-compiler)";
+        fi
 fi
 
 # 提取/合并,黑白名单
-python ./script/remove.py
+if command -v python3 >/dev/null 2>&1; then
+    python3 ./script/remove.py || true
+else
+    echo "[warn] python3 not found; skip allowlist filtering"
+fi
 
 # 添加关键词过滤规则
 cat ./mod/rules/first-dns-rules.txt >> dns.txt
 
-python ./script/rule.py dns.txt
+if command -v python3 >/dev/null 2>&1; then
+    python3 ./script/rule.py dns.txt || true
+else
+    echo "[warn] python3 not found; skip final sort"
+fi
 echo -e "! Total count: $(wc -l < dns.txt) \n! Update: $update_time" > total.txt
 cat ./mod/title/dns-title.txt total.txt dns.txt | sed '/^$/d' > tmp.txt
 mv tmp.txt dns.txt
