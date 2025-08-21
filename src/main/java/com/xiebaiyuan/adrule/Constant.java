@@ -40,6 +40,7 @@ public class Constant {
             "# Modifier Rules: {} rules                                       #\r\n" +
             "# AdGuardHome Rules: {} rules                                     #\r\n" +
             "# Deduplication Rate: {}%                                        #\r\n" +
+            "# Current File: {} ({} rules)                                     #\r\n" +
             "#                                                                              #\r\n" +
             "# 🔧 Technical Features                                                       #\r\n" +
             "# ✓ Bloom Filter Deduplication                                                #\r\n" +
