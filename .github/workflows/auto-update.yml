@@ -50,20 +50,21 @@ jobs:
             modifier=$(extract "Modifier Rules:")
             adgh=$(extract "AdGuardHome Rules:")
             dedupe=$(grep -m1 "^# Deduplication Rate:" "$STATS_FILE" | awk -F': ' '{print $2}' | awk '{print $1}')
-          timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          # Beijing time formatted as 'YYYY-MM-DD HH:MM:SS'
+          timestamp=$(date +"%Y-%m-%d %H:%M:%S")
           # 纯文本前缀（无 emoji），可自行增删；随机挑选一个
           prefixes=(
-            "rules:update"
-            "rules:sync"
-            "rules:refresh"
-            "rules:autogen"
-            "rules:daily"
-            "rules:stats"
+            "Rules Update"
+            "Rules Sync"
+            "Rules Refresh"
+            "Rules Autogen"
+            "Rules Daily"
+            "Rules Stats"
           )
           idx=$((RANDOM % ${#prefixes[@]}))
           prefix=${prefixes[$idx]}
-          # 提交信息格式：<prefix>: Total=... (Dedupe xx%) @UTC
-          msg="${prefix} @${timestamp} | Total=${total} Domain=${domain} Regex=${regex} Hosts=${hosts} Modifier=${modifier} AdGH=${adgh} Dedupe=${dedupe}% "
+          # Commit message format: <Prefix> YYYY-MM-DD HH:MM:SS | Total=... Domain=... ...
+          msg="${prefix} at ${timestamp} | Total=${total} Domain=${domain} Regex=${regex} Hosts=${hosts} Modifier=${modifier} AdGH=${adgh} Dedupe=${dedupe}%"
           echo "msg=${msg}" >> $GITHUB_OUTPUT
 
       - name: Commit Changes
