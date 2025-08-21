@@ -7,7 +7,7 @@ on:
       - '*.md'
       - '.DS_Store'
   schedule:
-    - cron: '0 */12 * * *'  # 每 12 小时执行一次
+    - cron: '0 1/12 * * *'  # 在1:00和13:00执行，比auto-update晚1小时
   workflow_dispatch:  # 允许手动触发
 
 env:
