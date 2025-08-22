@@ -4,8 +4,8 @@
 ! Powerd by Cats-Team
 ! Expires: 1 day (update frequency)
 ! Description: AdRules AdBlock List's Lite Version, And Remove Some Filters
-! ! Version: 2025-08-22 17:32:09(GMT+8)
-! Total count: 35240
+! ! Version: 2025-08-22 17:50:13(GMT+8)
+! Total count: 35241
  
 ###ADtip
 ###AdBlockDialog
@@ -14993,6 +14993,7 @@ saigon24.net#$#abort-current-inline-script document.getElementById myModal
 sailtool.com##body > div[style^="position:fixed;right:0;top:"]
 samayam.com,indiatimes.com##a[onclick][rel="nofollow,noindex"]
 sameday.costco.*#$#hide-if-matches-xpath './/div[@style]/following::span[text()]/preceding::div[@aria-hidden="true"]/preceding::img[contains(@alt,"Sponsored")]/ancestor-or-self::div[@id][@class][1]'
+sameday.costco.*#$#override-property-read ADBLOCK_DETECTED false
 sameday.costco.*#$#race start; hide-if-matches-xpath '//div[@id]/a//div[descendant::span[contains(text(), "Spons")] and descendant::span[contains(@style, "inline-")]]/ancestor::div[3]'; hide-if-matches-xpath '//div[@id]/a//div[descendant::span[contains(text(), "Spons")] and descendant::span[contains(text(), "ored")]]/ancestor::div[3]'; race stop;
 samehadaku.net#@##adsense
 samsclub.com##.sc-plp-cards-vast-ad
