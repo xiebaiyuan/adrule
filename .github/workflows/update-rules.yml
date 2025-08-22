@@ -25,6 +25,24 @@ jobs:
         with:
           ref: adrules  # 切换到 adrules 分支
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Remove old generated rule files
+        run: |
+          echo "Removing old generated rule files before building rules"
+          rm -f adblock.txt adblock.txt.REMOVED.git-id \
+                adblock_lite.txt adblock_lite.txt.REMOVED.git-id \
+                adblock_plus.txt adblock_plus.txt.REMOVED.git-id \
+                adrules-mihomo.mrs adrules-mihomo.mrs.REMOVED.git-id \
+                adrules-singbox.json adrules-singbox.json.REMOVED.git-id \
+                adrules-singbox.srs adrules-singbox.srs.REMOVED.git-id \
+                adrules-surge.conf adrules-surge.conf.REMOVED.git-id \
+                adrules.list adrules.list.REMOVED.git-id \
+                adrules_domainset.txt adrules_domainset.txt.REMOVED.git-id \
+                dns.txt dns.txt.REMOVED.git-id \
+                download_failed.log \
+                mosdns_adrules.txt mosdns_adrules.txt.REMOVED.git-id \
+                qx.conf qx.conf.REMOVED.git-id \
+                smart-dns.conf smart-dns.conf.REMOVED.git-id || true
+          echo "Current repo root contents:" && ls -la || true
 
       - name: Setup Python
         uses: actions/setup-python@v2
