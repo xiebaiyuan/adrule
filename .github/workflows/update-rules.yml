@@ -9,6 +9,9 @@ on:
   schedule:
     - cron: '0 1/12 * * *'  # 在1:00和13:00执行，比auto-update晚1小时
   workflow_dispatch:  # 允许手动触发
+  repository_dispatch:
+    types:
+      - Manual-Update
 
 env:
   TZ: Asia/Shanghai
@@ -48,6 +51,12 @@ jobs:
           echo "Listing tmp/dns directory contents:"  
           ls -la ./tmp/dns/ || echo "tmp/dns directory does not exist"
           tar -czvf archive.tar.gz ./tmp/*
+#
+#      - name: Upload artifacts
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: archive.tar.gz
+#          path: archive.tar.gz
         
       - name: Build Rules
         continue-on-error: false
@@ -113,11 +122,10 @@ jobs:
 
       - name: Update other rules | 更新其它规则及Github-Hosts
         run: |
-          cd rules
-          rm *.txt
+          mkdir -p rules # 确保 rules 目录存在
+          cd rules 
+          rm -f *.txt
           wget https://raw.githubusercontent.com/damengzhu/banad/main/jiekouAD.txt
-
-          bash ../script/github-hosts.sh
           cd ../
 
       - name: Commit changes

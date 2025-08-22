@@ -1,0 +1,144 @@
+#name: git-file-size-reducer
+## 用于清理仓库中指定大小范围的文件历史，减小仓库体积
+#on:
+#  workflow_dispatch:
+#    inputs:
+#      min_size_kb:
+#        description: '删除大于此大小的文件（KB）'
+#        required: true
+#        default: '10'
+#      max_size_mb:
+#        description: '删除小于此大小的文件（MB）'
+#        required: true
+#        default: '1'
+#  schedule:
+#    - cron: '0 3 1 * *'
+#
+#jobs:
+#  reduce-repo-size:
+#    runs-on: ubuntu-latest
+#    permissions: write-all
+#    steps:
+#      - name: 设置参数
+#        id: set-params
+#        run: |
+#          if [ "${{ github.event_name }}" = "schedule" ]; then
+#            echo "min_size_kb=10" >> $GITHUB_OUTPUT
+#            echo "max_size_mb=1" >> $GITHUB_OUTPUT
+#            echo "MIN_SIZE_KB=10" >> $GITHUB_ENV
+#            echo "MAX_SIZE_MB=1" >> $GITHUB_ENV
+#          else
+#            echo "min_size_kb=${{ github.event.inputs.min_size_kb }}" >> $GITHUB_OUTPUT
+#            echo "max_size_mb=${{ github.event.inputs.max_size_mb }}" >> $GITHUB_OUTPUT
+#            echo "MIN_SIZE_KB=${{ github.event.inputs.min_size_kb }}" >> $GITHUB_ENV
+#            echo "MAX_SIZE_MB=${{ github.event.inputs.max_size_mb }}" >> $GITHUB_ENV
+#          fi
+#
+#      - name: 克隆裸仓库
+#        run: |
+#          git clone --mirror https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }} repo_mirror
+#
+#      - name: 安装git-filter-repo
+#        run: |
+#          pip install git-filter-repo
+#
+#      - name: 分析清理前的仓库大小
+#        run: |
+#          cd repo_mirror
+#          echo "清理前的仓库大小："
+#          du -sh .
+#          git count-objects -vH
+#          echo "所有文件大小分布："
+#          git rev-list --objects --all | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | \
+#          awk '/^blob/ {print substr($0,6)}' | sort -k2nr | head -20
+#
+#      - name: 清理指定大小范围的文件
+#        run: |
+#          cd repo_mirror
+#          MIN_SIZE_BYTES=$(($MIN_SIZE_KB * 1024))
+#          MAX_SIZE_BYTES=$(($MAX_SIZE_MB * 1024 * 1024))
+#
+#          echo "删除大于 ${MIN_SIZE_KB}KB 且小于 ${MAX_SIZE_MB}MB 的文件..."
+#          echo "大小范围: $MIN_SIZE_BYTES - $MAX_SIZE_BYTES 字节"
+#
+#          # 创建 Python 脚本来过滤指定大小范围的文件
+#          cat > /tmp/size_filter.py << 'EOF'
+#          #!/usr/bin/env python3
+#          import sys
+#          import os
+#
+#          min_size = int(os.environ['MIN_SIZE_BYTES'])
+#          max_size = int(os.environ['MAX_SIZE_BYTES'])
+#
+#          for line in sys.stdin:
+#              parts = line.strip().split(' ', 2)
+#              if len(parts) >= 3:
+#                  obj_type, obj_id, size_and_path = parts
+#                  if obj_type == 'blob':
+#                      try:
+#                          size_part = size_and_path.split(' ', 1)[0]
+#                          size = int(size_part)
+#                          if min_size <= size < max_size:
+#                              # 输出需要删除的文件的object id
+#                              print(obj_id)
+#                      except (ValueError, IndexError):
+#                          pass
+#          EOF
+#
+#          chmod +x /tmp/size_filter.py
+#
+#          # 获取需要删除的对象ID列表
+#          git rev-list --objects --all | \
+#          git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | \
+#          MIN_SIZE_BYTES=$MIN_SIZE_BYTES MAX_SIZE_BYTES=$MAX_SIZE_BYTES python3 /tmp/size_filter.py > /tmp/objects_to_remove.txt
+#
+#          # 检查是否有文件需要删除
+#          if [ -s /tmp/objects_to_remove.txt ]; then
+#            echo "找到 $(wc -l < /tmp/objects_to_remove.txt) 个对象需要删除"
+#
+#            # 使用 git filter-repo 删除这些对象
+#            if ! git filter-repo --force --strip-blobs-with-ids /tmp/objects_to_remove.txt; then
+#              echo "错误: 文件清理失败"
+#              exit 1
+#            fi
+#          else
+#            echo "没有找到指定大小范围内的文件"
+#          fi
+#
+#          # 清理和优化
+#          git reflog expire --expire=now --all
+#          git gc --prune=now --aggressive
+#
+#      - name: 分析清理后的仓库大小
+#        run: |
+#          cd repo_mirror
+#          echo "清理后的仓库大小："
+#          du -sh .
+#          git count-objects -vH
+#          echo "剩余文件大小分布："
+#          git rev-list --objects --all | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' | \
+#          awk '/^blob/ {print substr($0,6)}' | sort -k2nr | head -20
+#
+#      - name: 推送到远程
+#        run: |
+#          cd repo_mirror
+#          git remote add origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}
+#          echo "开始推送清理后的仓库..."
+#          if ! git push --mirror --force; then
+#            echo "错误: 推送失败"
+#            exit 1
+#          fi
+#          echo "推送成功"
+#
+#      - name: 清理临时文件
+#        if: always()
+#        run: |
+#          rm -rf repo_mirror
+#          rm -f /tmp/size_filter.py /tmp/objects_to_remove.txt
+#
+#      - name: 清理完成通知
+#        run: |
+#          echo "Git仓库指定大小文件清理完成。"
+#          echo "已删除大于 ${MIN_SIZE_KB}KB 且小于 ${MAX_SIZE_MB}MB 的所有文件历史。"
+#          echo "注意：此操作已重写Git历史，所有团队成员需要重新克隆仓库或执行git pull --rebase来同步更改。"
+#          echo "如需恢复，可从GitHub历史或其他本地克隆恢复。"
