@@ -5,7 +5,7 @@ with open('domain.txt', 'r') as file:
     domains = [line.strip() for line in file]
 
 rules = {
-    "version": "1",
+    "version": "2",
     "rules": [
         {
             "domain_suffix": domains
