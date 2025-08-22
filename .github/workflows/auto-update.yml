@@ -65,7 +65,7 @@ jobs:
           idx=$((RANDOM % ${#prefixes[@]}))
           prefix=${prefixes[$idx]}
           # Commit message format: <Prefix> YYYY-MM-DD HH:MM:SS | Total=... Domain=... ...
-          msg="${prefix} at ${timestamp} | Total=${total} Domain=${domain} Regex=${regex} Hosts=${hosts} Modifier=${modifier} AdGH=${adgh} Dedupe=${dedupe}%"
+          msg="${prefix} at ${timestamp} | Total=${total} Domain=${domain} Regex=${regex} Hosts=${hosts} Modifier=${modifier} AdGH=${adgh} Dedupe=${dedupe}"
           echo "msg=${msg}" >> $GITHUB_OUTPUT
 
       - name: Commit Changes
