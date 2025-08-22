@@ -8,3 +8,5 @@ tmp/
 /target
 */.DS_Store/
 mod/.DS_Store
+.git-id
+*.log
