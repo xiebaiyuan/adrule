@@ -4,8 +4,8 @@
 ! Powerd by Cats-Team
 ! Expires: 1 day (update frequency)
 ! Description: AdRules AdBlock List's Lite Version, And Remove Some Filters
-! ! Version: 2025-08-23 10:26:01(GMT+8)
-! Total count: 35250
+! ! Version: 2025-08-23 21:25:50(GMT+8)
+! Total count: 35256
  
 ###ADtip
 ###AdBlockDialog
@@ -1709,7 +1709,7 @@ $$script:contains(?is_not=1&target=1&ty=2)
 $csp=script-src 'self' * 'unsafe-inline',domain=efuxs.com|i3book.com|genbiquge.com|quanbiqu.com|pinshu.org|13xsw.com|bbiquge.cc|taobiquge.com|haijiaobooksw.top|zlobin.net|piaotianxiaoshuo.com|yebiquge.com|jvbiquge.com|vipbiquge.com|jpbqg7.com|zuizhong.net|oldtimeswx.org|5book.cc|softtechsolution.org|product44.com|snxsw.com|xiexinde.net|m.6666xsw.com|m.chenkuan.com|jmshuwu.net|wodexiaoshuoh.com|tetservices.net|haitangsoshu.org|4hrz.net|x33yq.org|56xiaoshuo.net|novelser.com|ykxs.cc|biqudd.com|diyibanzhu44444.com|dbrxs.org|kaixindu.net|1ingatlan.net|gaofuwu.org|yushuwu.cloud|yswxs.com|biquge2345.com|dingdian911.com|bqug8.com|xianguke.net|kunnu.com|yourbiquge.com|biquge345.com|666biquge.com|biquwx.cc|1kans.net|aidu123.com|biquluo.info|bqgh.com|jmshuwu.net|maxshuku.com|shukuge.com|sthuojia.net|tvyun07.com
 $csp=script-src 'self' * 'unsafe-inline',domain=pucixs.com|tuqisw.com|xueyisw.com|zuye8.com|yawoxs.com|guwoxs.com|jiufuzw.com|beianxs.com|shuying6.com|mafusw.com|cule9.com|riquzw.com|xingksw.com|enbusw.com|waguwk.cc|ruyisw.com|zuxiku.com|jinmusb.com|hunshuge.com|puyewk.com|kaaiwk.com|hadu520.com|qubosw.com|meisibook.com|cuaizw.cc|boxue8.cc|cipubook.com|ququsk.cc|yiyezao.com|shanhuxs.com|jiutusw.com|chahuax.com|candoug.com|hanziwen.com|haduzw.com|modaoshu.com|nipubook.com|nuoshuge.com|puquz.com|wuwusk.com
 $csp=script-src 'self' * 'unsafe-inline',domain=smsonline.cloud
-$csp=script-src 'self' *,domain=hunhunxs.com|sswwxs.com|akexs.com|qqmmxs.com|qimiaoxs.cc|qimiaoxiaoshuo.com|wuwxs.com|biquge678.com|biqugezw.us|zk01.net
+$csp=script-src 'self' *,domain=90shuyuan.com|hunhunxs.com|sswwxs.com|akexs.com|qqmmxs.com|qimiaoxs.cc|qimiaoxiaoshuo.com|wuwxs.com|biquge678.com|biqugezw.us|zk01.net
 $domain=ads.adxadserv.com|adserver.juicyads.com|cs.adxpansion.com|olmsoneenh.info|static.javhd.com|syndication.exosrv.com
 $domain=googleads.g.doubleclick.net
 $image,third-party,domain=258zw.com
@@ -2122,6 +2122,7 @@ $websocket,domain=wap.yushuwu.cloud
 /*_*_aubi.js$third-party
 /*gek|$image,domain=animenova.org|animeplus.tv|gogoanimes.co|gogoanimes.fi|kiss-anime.ws|readcomiconline.to|mangareader.net|animewow.org|animeland.us
 //*.emgrt.com^$third-party
+//cdn.*/uni-ggs.js$third-party
 //m.manhua123.net/js/com2.js
 /0mbjs/2800av*.js
 /1.js?ssfrid=$script,third-party
@@ -3068,7 +3069,6 @@ $websocket,domain=wap.yushuwu.cloud
 /ty684.oss-
 /u/_sponsor/*
 /uc123_no/*/index/js/activity.
-/uni-ggs.js
 /uniontgm.cmb.
 /upload/site/tbgg/*.gif
 /upload/vod/2018-08-05/201808051533458526.png
@@ -18139,6 +18139,7 @@ zzzyk.com###Tinfo
 ||1905715.com^
 ||1909.me/upload/ad/
 ||192.151.218.66^$third-party
+||192ly.com/wp-content/cache/*.js
 ||194.59.220.161^
 ||199.180.100.185/love44^
 ||1990tu.com/i/*.gif
@@ -20969,6 +20970,7 @@ zzzyk.com###Tinfo
 ||bjk08220ip.com^
 ||bjk08221ip.com^
 ||bjk08230ip.com^
+||bjk08231ip.com^
 ||bjkedv*.xyz^
 ||bjmama.net/a/spc_
 ||bjmantis.net^
@@ -27447,6 +27449,7 @@ zzzyk.com###Tinfo
 ||lftcph.icu^
 ||lfxozd.xyz^
 ||lfzk2cp.icu^
+||lgaicreal.com^
 ||lganilgll.cyou^
 ||lgecqrb.com^
 ||lgjygg.com^
@@ -32354,6 +32357,7 @@ zzzyk.com###Tinfo
 ||trafficjunky.net^
 ||trafficmanager.net/o.js
 ||trafficstars.com$third-party
+||traiqnien.com^
 ||tranquilplume.com^$third-party
 ||tranquilside.com^$third-party
 ||trappush.com^$third-party
@@ -35030,6 +35034,7 @@ zzzyk.com###Tinfo
 ||zhuys.com^*.php
 ||zhy333.com^$third-party
 ||zhzyw.com/js/InsertJS.js
+||ziajretrs.com^
 ||zibjls.top^
 ||ziccattws.com^
 ||zifyeldq.top^
@@ -35081,6 +35086,7 @@ zzzyk.com###Tinfo
 ||zmdjbl.xyz^
 ||zmhqhuq.cn^
 ||zmk.pw/zfb.png
+||zmkp6jvq4.com^
 ||zmpgln.icu^
 ||zmrmbc.xyz^
 ||zmvopcio.icu^
