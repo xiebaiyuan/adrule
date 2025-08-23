@@ -18,19 +18,19 @@
 # License: MIT License                                                         #
 #                                                                              #
 # ⏰ Generation Information                                                   #
-# Generated Time: 2025-08-23 08:39:08                                       #
-# Processing Time: 12136ms                                         #
-# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 2330MB            #
+# Generated Time: 2025-08-23 20:13:57                                       #
+# Processing Time: 12143ms                                         #
+# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1776MB            #
 #                                                                              #
 # 📊 Statistics Information                                                   #
 # Upstream Sources: 35 sources                                      #
-# Total Rules: 618201 rules                                          #
-# Domain Rules: 267616 rules                                         #
+# Total Rules: 618652 rules                                          #
+# Domain Rules: 268094 rules                                         #
 # Regex Rules: 140 rules                                          #
 # Hosts Rules: 20047 rules                                          #
-# Modifier Rules: 330398 rules                                       #
-# AdGuardHome Rules: 267756 rules                                     #
-# Deduplication Rate: 45.34%                                        #
+# Modifier Rules: 330371 rules                                       #
+# AdGuardHome Rules: 268234 rules                                     #
+# Deduplication Rate: 45.06%                                        #
 # Current File: #  1. https://raw.githubusercontent.com/durablenapkin/scamblocklist/refs/... #
 #  2. https://someonewhocares.org/hosts/zero/hosts                           #
 #  3. https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplu... #
