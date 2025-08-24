@@ -18,19 +18,19 @@
 # License: MIT License                                                         #
 #                                                                              #
 # ⏰ Generation Information                                                   #
-# Generated Time: 2025-08-24 08:45:25                                       #
-# Processing Time: 12190ms                                         #
-# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1702MB            #
+# Generated Time: 2025-08-24 20:14:12                                       #
+# Processing Time: 12124ms                                         #
+# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1618MB            #
 #                                                                              #
 # 📊 Statistics Information                                                   #
 # Upstream Sources: 35 sources                                      #
-# Total Rules: 618479 rules                                          #
-# Domain Rules: 267907 rules                                         #
-# Regex Rules: 140 rules                                          #
+# Total Rules: 618755 rules                                          #
+# Domain Rules: 268180 rules                                         #
+# Regex Rules: 141 rules                                          #
 # Hosts Rules: 20047 rules                                          #
-# Modifier Rules: 330385 rules                                       #
-# AdGuardHome Rules: 268047 rules                                     #
-# Deduplication Rate: 45.38%                                        #
+# Modifier Rules: 330387 rules                                       #
+# AdGuardHome Rules: 268321 rules                                     #
+# Deduplication Rate: 45.39%                                        #
 # Current File: #  1. https://raw.githubusercontent.com/durablenapkin/scamblocklist/refs/... #
 #  2. https://someonewhocares.org/hosts/zero/hosts                           #
 #  3. https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplu... #
@@ -179,6 +179,7 @@
 /^https:\/\/giaohangtietkiem\w+\.com\//$doc,to=com|~giaohangtietkiem.vn
 /^https:\/\/grabify\.org\/[A-Z0-9]+$/$doc
 /^https:\/\/images\.hdmz\.co\/images\/[A-z]+\./$domain=putlocker.vip
+/^https:\/\/loader\.[-0-9a-z]+\.[a-z][a-z][a-z]?\/loader\.min\.js$/$script,1p,match-case,domain=~edu|~gov
 /^https:\/\/mbdk\d+\.com\//$doc,to=com|~mbbank.com.vn
 /^https:\/\/ourtime\.[a-z]+-[a-z]+\.workers\.dev\//$doc,to=workers.dev|~ourtime.com
 /^https:\/\/tdk[det]0[0-9]\.com\//$doc,to=com|~tiki.vn
