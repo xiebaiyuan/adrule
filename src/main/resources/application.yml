@@ -31,7 +31,8 @@ application:
       - 'https://easylist-downloads.adblockplus.org/antiadblockfilters.txt' # name: Remove anti-adblock warning rules
       - 'https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt' # name: XingShao AdRules DNS List
       # - 'https://raw.githubusercontent.com/xiebaiyuan/adrule/refs/heads/adrules/dns.txt' # name: catteam
-      - 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/AdGuard/Advertising/Advertising.txt' # name: AdGuard_blackmatrix7 merged
+      # 这个作者好像有点恨百度 热榜都干了。
+      # - 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/AdGuard/Advertising/Advertising.txt' # name: AdGuard_blackmatrix7 merged
       - 'https://raw.githubusercontent.com/zsakvo/AdGuard-Custom-Rule/master/rule/zhihu.txt' # name: Zhihu standard version
       - 'https://raw.githubusercontent.com/timlu85/AdGuard-Home_Youtube-Adfilter/master/Youtube-Adfilter-Web.txt' # name: Youtube-Adfilter-Web
       - 'https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule.txt' # name: Autumn Wind ad rules, targeting Android ads
