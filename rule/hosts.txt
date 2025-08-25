@@ -18,54 +18,53 @@
 # License: MIT License                                                         #
 #                                                                              #
 # ⏰ Generation Information                                                   #
-# Generated Time: 2025-08-25 08:42:50                                       #
-# Processing Time: 12111ms                                         #
-# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 964MB            #
+# Generated Time: 2025-08-25 17:29:25                                       #
+# Processing Time: 10132ms                                         #
+# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1028MB            #
 #                                                                              #
 # 📊 Statistics Information                                                   #
-# Upstream Sources: 35 sources                                      #
-# Total Rules: 618534 rules                                          #
-# Domain Rules: 267957 rules                                         #
-# Regex Rules: 141 rules                                          #
+# Upstream Sources: 34 sources                                      #
+# Total Rules: 534767 rules                                          #
+# Domain Rules: 266573 rules                                         #
+# Regex Rules: 127 rules                                          #
 # Hosts Rules: 20047 rules                                          #
-# Modifier Rules: 330389 rules                                       #
-# AdGuardHome Rules: 268098 rules                                     #
-# Deduplication Rate: 45.39%                                        #
+# Modifier Rules: 248020 rules                                       #
+# AdGuardHome Rules: 266700 rules                                     #
+# Deduplication Rate: 51.72%                                        #
 # Current File: #  1. https://raw.githubusercontent.com/durablenapkin/scamblocklist/refs/... #
 #  2. https://someonewhocares.org/hosts/zero/hosts                           #
 #  3. https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplu... #
 #  4. https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/refs/... #
 #  5. https://raw.githubusercontent.com/jdlingyu/ad-wars/master/hosts        #
 #  6. https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/maste... #
-#  7. https://anti-ad.net/easylist.txt                                       #
-#  8. https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master... #
-#  9. https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt     #
-# 10. https://raw.githubusercontent.com/Crystal-RainSlide/AdditionalFilte... #
-# 11. https://raw.githubusercontent.com/banbendalao/ADgk/master/ADgk.txt     #
+#  7. https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master... #
+#  8. https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt     #
+#  9. https://raw.githubusercontent.com/Crystal-RainSlide/AdditionalFilte... #
+# 10. https://raw.githubusercontent.com/banbendalao/ADgk/master/ADgk.txt     #
+# 11. https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/... #
 # 12. https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/... #
-# 13. https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/... #
-# 14. https://raw.githubusercontent.com/o0HalfLife0o/list/master/ad.txt      #
-# 15. https://adaway.org/hosts.txt                                           #
-# 16. https://easylist-downloads.adblockplus.org/antiadblockfilters.txt      #
-# 17. https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt       #
-# 18. https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs... #
-# 19. https://raw.githubusercontent.com/zsakvo/AdGuard-Custom-Rule/master... #
-# 20. https://raw.githubusercontent.com/timlu85/AdGuard-Home_Youtube-Adfi... #
-# 21. https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/mai... #
-# 22. https://github.com/ilxp/koolproxy/raw/main/rules/koolproxy.txt         #
-# 23. https://github.com/ilxp/koolproxy/raw/main/rules/daily.txt             #
-# 24. https://github.com/ilxp/koolproxy/raw/main/rules/steven.txt            #
-# 25. https://raw.githubusercontent.com/uBlockOrigin/uAssets/refs/heads/m... #
-# 26. https://ublockorigin.pages.dev/filters/badware.txt                     #
-# 27. https://raw.githubusercontent.com/uBlockOrigin/uAssetsCDN/refs/head... #
-# 28. https://ublockorigin.github.io/uAssets/filters/quick-fixes.txt         #
-# 29. https://raw.githubusercontent.com/uBlockOrigin/uAssets/refs/heads/m... #
-# 30. https://raw.githubusercontent.com/uBlockOrigin/uAssetsCDN/refs/head... #
-# 31. https://filters.adtidy.org/extension/ublock/filters/11.txt             #
-# 32. https://raw.githubusercontent.com/thhbdd/Block-pcdn-domains/refs/he... #
+# 13. https://raw.githubusercontent.com/o0HalfLife0o/list/master/ad.txt      #
+# 14. https://adaway.org/hosts.txt                                           #
+# 15. https://easylist-downloads.adblockplus.org/antiadblockfilters.txt      #
+# 16. https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt       #
+# 17. https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs... #
+# 18. https://raw.githubusercontent.com/zsakvo/AdGuard-Custom-Rule/master... #
+# 19. https://raw.githubusercontent.com/timlu85/AdGuard-Home_Youtube-Adfi... #
+# 20. https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/mai... #
+# 21. https://raw.githubusercontent.com/ilxp/koolproxy/refs/heads/main/ru... #
+# 22. https://raw.githubusercontent.com/ilxp/koolproxy/refs/heads/main/ru... #
+# 23. https://raw.githubusercontent.com/uBlockOrigin/uAssets/refs/heads/m... #
+# 24. https://ublockorigin.pages.dev/filters/badware.txt                     #
+# 25. https://raw.githubusercontent.com/uBlockOrigin/uAssetsCDN/refs/head... #
+# 26. https://ublockorigin.github.io/uAssets/filters/quick-fixes.txt         #
+# 27. https://raw.githubusercontent.com/uBlockOrigin/uAssets/refs/heads/m... #
+# 28. https://raw.githubusercontent.com/uBlockOrigin/uAssetsCDN/refs/head... #
+# 29. https://filters.adtidy.org/extension/ublock/filters/11.txt             #
+# 30. https://raw.githubusercontent.com/thhbdd/Block-pcdn-domains/refs/he... #
+# 31. https://anti-ad.net/easylist.txt                                       #
+# 32. https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/... #
 # 33. https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/... #
-# 34. https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/... #
-# 35. mylist.txt                                                             #
+# 34. mylist.txt                                                             #
  ({} rules)                                     #
 #                                                                              #
 # 🔧 Technical Features                                                       #
