@@ -18,18 +18,18 @@
 # License: MIT License                                                         #
 #                                                                              #
 # ⏰ Generation Information                                                   #
-# Generated Time: 2025-08-26 08:40:46                                       #
-# Processing Time: 9120ms                                         #
-# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 884MB            #
+# Generated Time: 2025-08-26 11:08:19                                       #
+# Processing Time: 10169ms                                         #
+# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 894MB            #
 #                                                                              #
 # 📊 Statistics Information                                                   #
 # Upstream Sources: 33 sources                                      #
-# Total Rules: 463751 rules                                          #
-# Domain Rules: 195527 rules                                         #
-# Regex Rules: 127 rules                                          #
+# Total Rules: 463748 rules                                          #
+# Domain Rules: 195547 rules                                         #
+# Regex Rules: 52 rules                                          #
 # Hosts Rules: 20047 rules                                          #
-# Modifier Rules: 248050 rules                                       #
-# AdGuardHome Rules: 195654 rules                                     #
+# Modifier Rules: 248102 rules                                       #
+# AdGuardHome Rules: 195599 rules                                     #
 # Deduplication Rate: 47.70%                                        #
 # Current File: #  1. https://raw.githubusercontent.com/durablenapkin/scamblocklist/refs/... #
 #  2. https://someonewhocares.org/hosts/zero/hosts                           #
@@ -103,46 +103,12 @@
 /.*pcdn.*biliapi\.net/
 /.*pcdn.*youku.com/
 /.*pcdn.*youku\.com/
-/..nt.nt\.st.+p.ay\..+/$domain=stemplay.*|steamplay.*|steanplay.*|streamp1ay.*|streanplay.*|streampiay.*|stre4mplay.*|powstream.*
-/.com\/[a-z0-9][a-z0-9]\/[a-z0-9][a-z0-9]\/.*.js$/$third-party,domain=mac-torrents.io|ling.online|pelisplushd.net|bestjavporn.com|bitchyx.it|fzmovies.host|onejav.com|extreme-down.live|animepahe.org|animepahe.com|animepahe.ru
-/139.45.197.24\d/$network
-/1688porn.tv\/.*[-\/]\d+x\d+.*\.gif/$domain=1688porn.tv
 /193.200.64.24:/
 /62.76.25.2(7|8)/
 /99rejs/
-/:\/\/[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9].[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9].com\/.*.js/$third-party,script,domain=perverzija.com|xtremestream.co
-/:\/\/fmovies.[a-z]+\/[A-Za-z0-9]+$/$domain=fmovies.cab
 /Adloader/
-/[0-9][0-9][0-9][0-9][0-9]/$third-party,script,domain=ds2play.com|doods.pro|dooood.com|dood.yt|dood.re|dood.wf|dood.la|dood.pm|dood.so|dood.to|dood.watch|dood.ws|do0od.com|d0000d.com|dooodster.com|do7go.com|snowmtl.ru|vide0.net
-/[0-9][0-9][0-9][0-9][0-9]/$third-party,script,domain=kinos.to|archivebate.com|hdtodayz.to|hdtoday.cc|animefenix.tv|bunkr.*|bunkr.ci|bunkr.ph|bunkr-albums.io|kissasian.*
 /[a-z]+\d+\.cnzz\./
-/\(com\?\d+/$third-party
-/\.[a-z][a-z][a-z]\/$/$xmlhttprequest,third-party,domain=aniwatchtv.to|goku.sx
-/\.[a-z]dinmi[a-z].top\//$script,third-party
-/\.[a-z]domsi[a-z].top\//$script,third-party
-/\.[a-z]dyurli[a-z].top\//$script,third-party
-/\.[a-z]oubli[a-z].top\//$script,third-party
-/\.[a-z]weisi[a-z].top\//$script,third-party
-/\.[a-z]yjqgp[a-z].top\//$script,third-party
-/\.com\/[0-9a-f]+\.js$/$script,~third-party,domain=imgadult.com|imgtaxi.com|imgwallet.com
-/\.com\/[_0-9a-zA-Z]+\.jpg$/$image,1p,domain=hottystop.com
-/\.com\/[_0-9a-zA-Z]+\.jpg$/$image,~third-party,domain=hottystop.com
-/\.com\/[a-z-]+\.html$/$subdocument,~third-party,domain=imgadult.com|imgtaxi.com|imgwallet.com
-/\.com\/\d+/[0-9a-z]+\.js$/$script,~third-party,domain=hentai2w.com
-/\.net\/[0-9a-f]+\.js$/$script,~third-party,domain=imgdrive.net
-/\.net\/[a-z-]+\.html$/$subdocument,~third-party,domain=imgdrive.net
-/\/[0-9][0-9][0-9][0-9][0-9]$/$third-party,script,domain=toonily.com|japscan.me|animepahe.org|animepahe.com|animepahe.ru|chapmanganato.com|lilymanga.net|megacanais.com|putlocker.*|yomovies.*|sukidesuost.info|manhuatop.org|animeworld.so|mangaworld.*|viprow.nu|pandra.ma
-/\/[0-9][0-9][0-9][0-9][0-9][0-9]$/$third-party,script,domain=69shuba.cx|igetintopc.com|animepahe.ru|dramago.in|manhuatop.org|soap2day.day
 /\/[0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/$xmlhttprequest,script,third-party,domain=bingewatch.to|yeshd.net|hianime.*|goku.sx|vudeo.ws|soap2day.*|bingemaster.netlify.app|hianimez.*|animeunity.so
-/\/[0-9][0-9][0-9][0-9][0-9]\?version_name=[a-z]$/$xmlhttprequest
-/\/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]\/invoke\.js/$script,third-party
-/\/[a-z0-9][a-z0-9]\/[a-z0-9][a-z0-9]\/[a-z0-9][a-z0-9]\/.*\.js/$domain=watch32.is,third-party
-/\/ad\d*\./$script
-/\/js\/[a-z]j\.js$/$script,~third-party,domain=joysporn.sex
-/\/slade[0-9]?\.js/$domain=zxzj.me
-/\/static\/[0-9a-z]+/[0-9a-z]+\.js$/$script,~third-party,domain=fleshed.com
-/\/uploads\/[a-z]+\/\d\.gif$/$image,~third-party,domain=mangagun.net|nicomanga.com|rawinu.com|weloma.art|welovemanga.one
-/\:\/\/[a-z0-9]*.[a-z]*\/[0-9]*\//$third-party,domain=mintmanga.com
 /^(\S+\.)?adservice\.google\./
 /^(\S+\.)?analytics(\-|\.)/
 /^(\S+\.)?counter(\-|\.)/
@@ -171,30 +137,6 @@
 /^duomeng\./
 /^dwtrack\./
 /^guanggao\./
-/^https:\/\/[a-z][a-z]+\.[a-z][a-z][a-z][a-z][a-z][a-z][a-z][a-z][a-z][a-z]+\.com\/[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9]+\/[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]+$/$script,third-party,match-case,domain=yugenanime.tv
-/^https:\/\/[a-z][a-z][a-z]+\.[a-z][a-z][a-z][a-z][a-z][a-z][a-z][a-z][a-z][a-z]+\.top\/[a-z][a-z][a-z][a-z][a-z][a-z][a-z][a-z][a-z][a-z]+\/[a-z][a-z][a-z][a-z][a-z]+$/$script,third-party,match-case,domain=moviesjoy.is|rawkuma.com|anichin.top
-/^https:\/\/amazon[a-z]\d\.com\//$doc,to=com
-/^https:\/\/giaohangtietkiem\w+\.com\//$doc,to=com|~giaohangtietkiem.vn
-/^https:\/\/grabify\.org\/[A-Z0-9]+$/$doc
-/^https:\/\/images\.hdmz\.co\/images\/[A-z]+\./$domain=putlocker.vip
-/^https:\/\/loader\.[-0-9a-z]+\.[a-z][a-z][a-z]?\/loader\.min\.js$/$script,1p,match-case,domain=~edu|~gov
-/^https:\/\/mbdk\d+\.com\//$doc,to=com|~mbbank.com.vn
-/^https:\/\/ourtime\.[a-z]+-[a-z]+\.workers\.dev\//$doc,to=workers.dev|~ourtime.com
-/^https:\/\/tdk[det]0[0-9]\.com\//$doc,to=com|~tiki.vn
-/^https:\/\/vietg[a-z]v[0-9]*\.cc\//$doc,to=cc
-/^https:\/\/www\.[0-9a-z-][0-9a-z-][0-9a-z-][0-9a-z-][0-9a-z-][0-9a-z-][0-9a-z-][0-9a-z-]+\.xyz\/script\/[0-9A-Za-z.-]+\.[A-Za-z-][A-Za-z-]+\.js$/$script,third-party,match-case
-/^https?:\/\/[-a-z][-a-z][-a-z][-a-z]+\.com[-.][-a-z0-9][-a-z0-9]+\.[a-z][a-z][a-z]?[a-z]?[a-z]?\//$doc,to=cc|cfd|cyou|icu|live|top|vip|win|world|xin
-/^https?:\/\/[-a-z][-a-z][-a-z][-a-z]+\.gov[-.][-a-z0-9][-a-z0-9]+\.[a-z][a-z][a-z]?[a-z]?[a-z]?\//$doc,to=cc|cfd|cyou|icu|live|top|vip|win|world|xin
-/^https?:\/\/[-a-z][-a-z][-a-z][-a-z]+\.org[-.][-a-z0-9][-a-z0-9]+\.[a-z][a-z][a-z]?[a-z]?[a-z]?\//$doc,to=cc|cfd|cyou|icu|live|top|vip|win|world|xin
-/^https?:\/\/chatgpt\.com\/ces\/v1\/[a-z]$/$xhr,domain=chatgpt.com|openai.com|sora.com,method=post
-/^https?:\/\/dienmayxanh[-a-z0-9]+\.com\//$doc,to=com|~dienmayxanh.com
-/^https?:\/\/ftopx\.com\/[a-z\d]+\.js$/$domain=ftopx.com
-/^https?:\/\/gov[-.][-a-z0-9][-a-z0-9]+\.[a-z][a-z][a-z]?[a-z]?[a-z]?\//$doc,to=cc|cfd|cyou|icu|live|top|vip|win|world|xin
-/^https?:\/\/hentaigo\.com\/[a-z\d]+\.js$/$domain=hentaigo.com
-/^https?:\/\/imageboom\.net\/[a-z\d]+\.js$/$domain=imageboom.net
-/^https?:\/\/pikabu\.ru\/ajax\/[A-Za-z0-9]+\?[A-Za-z0-9]+=[0-9a-z-]+[0-9a-z]$/$xmlhttprequest,domain=pikabu.ru
-/^https?:\/\/web\.tegr[a-z][a-z][a-z]\.top\//$doc,to=top
-/^https?:\/\/xxximage\.org\/[a-z\d]+\.js$/$domain=xxximage.org
 /^omgmta\./
 /^omgmtaw\./
 /^omniture\./
@@ -205,22 +147,5 @@
 /^supersonicads\./
 /^wlmonitor\./
 /^zjtoolbar\./
-/_dating\d\/index\.html\?aref=/$doc
-/about:blank.*/$popup,domain=bitporno.com|iceporn.com|katestube.com|videowood.tv
 /community-ad/
-/dodgersexcartoons.com\/images\/\w\w\/.*.gif$/$domain=dodgersexcartoons.com
-/fakethebitch\.com\/\d?\.php/$domain=fakethebitch.com
-/fontyukle.net\/js\/\w+.js/$domain=fontyukle.net
-/gsmarena.com\/\d+.php3\?sSearch=/$xmlhttprequest,domain=gsmarena.com
-/hentai2w.com/[0-9a-z]*.php/$domain=hentai2w.com
-/kikar\.co\.il\/a\/\d+\/\d+/$subdocument,domain=kikar.co.il
-/killcovid2021\.com/\d\.mp4/$mp4
-/mega4upload.com\/\w-\d+$/$domain=mega4upload.com
-/nilesoft.org\/assets\/js\/lib\/[a-f0-9]+$/$domain=nilesoft.org
-/pornpictureshq\.com\/[A-Za-z]+\d+\.html/$domain=pornpictureshq.com
-/vkp.tc.qq.com/$media
-/widget/spage_game_tab/$domain=tieba.baidu.com
-@@//aka-cdn-ns.adtechus.com/images/$domain=cinemablend.com
 @@/:\/\/.*[.]wp[.]pl\/[a-z0-9_]+[.][a-z]+[/:&?]?/
-@@/\/\d\d\d\d\d$/$xmlhttprequest,script,other,third-party,domain=jujmanga.com
-@@/^https?:\/\/[0-9a-z]+\.cloudfront\.net\/\?[a-z]+=[0-9]+$/$domain=workink.click,xmlhttprequest
