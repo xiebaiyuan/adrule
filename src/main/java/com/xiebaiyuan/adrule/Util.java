@@ -309,6 +309,11 @@ public class Util {
         // 特殊处理：AdGuard Home格式的正则表达式规则
         // 格式如: /^example\.com$/ 或 /example\.(net|org)/
         if (type == RuleType.REGEX) {
+            // 检查是否包含不支持的修饰符
+            if (containsUnsupportedModifiers(rule)) {
+                return false;
+            }
+            
             // 检查基本正则表达式格式
             if (ReUtil.isMatch(Constant.ADG_REGEX_PATTERN, rule)) {
                 return true;
@@ -322,6 +327,11 @@ public class Util {
                 if (dollarPos > rule.lastIndexOf('/') && dollarPos > 0) {
                     modifierPart = rule.substring(dollarPos);
                     
+                    // 检查修饰符是否包含不支持的修饰符
+                    if (modifierPart != null && containsUnsupportedModifiers(modifierPart)) {
+                        return false;
+                    }
+                    
                     // 检查修饰符是否有效
                     if (modifierPart != null) {
                         for (String modifier : Constant.ADG_MODIFIERS) {
@@ -333,7 +343,11 @@ public class Util {
                 }
                 
                 // 没有修饰符或没有识别到有效修饰符，但格式仍然是正则表达式
-                return true;
+                // 再次检查是否为纯正则表达式（无修饰符）
+                if (dollarPos < 0 || dollarPos <= rule.lastIndexOf('/')) {
+                    return true;
+                }
+                return false;
             }
         }
 
@@ -436,6 +450,63 @@ public class Util {
         } else {
             map.put(key, CollUtil.newHashSet(val));
         }
+    }
+    
+    /**
+     * 检查规则是否包含AdGuard Home不支持的修饰符
+     * @param rule 规则字符串
+     * @return true if contains unsupported modifiers
+     */
+    private static boolean containsUnsupportedModifiers(String rule) {
+        if (rule == null || rule.isEmpty()) {
+            return false;
+        }
+        
+        // 提取修饰符部分（$之后的内容）
+        int dollarPos = rule.lastIndexOf('$');
+        if (dollarPos < 0) {
+            return false; // 没有修饰符
+        }
+        
+        String modifierPart = rule.substring(dollarPos + 1);
+        
+        // 首先检查是否包含AdGuard Home支持的修饰符
+        boolean hasAdGuardModifier = false;
+        for (String supportedModifier : Constant.ADG_MODIFIERS) {
+            if (modifierPart.contains(supportedModifier)) {
+                hasAdGuardModifier = true;
+                break;
+            }
+        }
+        
+        // 如果包含AdGuard Home支持的修饰符，则保留该规则
+        if (hasAdGuardModifier) {
+            return false;
+        }
+        
+        // 检查是否只包含不支持的修饰符
+        for (String unsupportedModifier : Constant.UNSUPPORTED_MODIFIERS) {
+            if (modifierPart.contains(unsupportedModifier)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 注意：域名规则不应该去重！
+     * aa.com 和 aa.com^ 有不同的含义：
+     * - aa.com: 只阻止确切的域名
+     * - aa.com^: 阻止域名及其所有子域
+     * 这个方法已废弃，保留是为了向后兼容
+     * @param rule 原始域名规则
+     * @return 原始规则（不做任何修改）
+     */
+    @Deprecated
+    public static String cleanDomainRule(String rule) {
+        // 不再进行任何清理，保持原始规则
+        return rule;
     }
 
 }

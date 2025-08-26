@@ -117,6 +117,30 @@ public class Constant {
     };
     
     /**
+     * uBlock Origin / AdBlock Plus specific modifiers that are NOT supported by AdGuard Home
+     */
+    public static final String[] UNSUPPORTED_MODIFIERS = new String[] {
+        "third-party", "~third-party", "1p", "3p", "script", "~script", 
+        "image", "~image", "stylesheet", "~stylesheet", "object", "~object",
+        "xmlhttprequest", "~xmlhttprequest", "subdocument", "~subdocument",
+        "font", "~font", "media", "~media", "websocket", "~websocket",
+        "popup", "~popup", "generichide", "genericblock", "elemhide",
+        "xhr", "css", "frame", "ping", "beacon", "csp", "doc", "document",
+        "mp4", "redirect", "redirect-rule", "removeparam", "removeheader",
+        "to=", "from=", "method=", "header=", "match-case", "domain=", "~domain="
+    };
+    
+    /**
+     * Pattern to detect domain restrictions in regex rules (domain=example.com)
+     */
+    public static final String DOMAIN_RESTRICTION_PATTERN = "\\$.*domain=.*";
+    
+    /**
+     * Pattern to detect complex uBlock Origin syntax
+     */
+    public static final String COMPLEX_UBLOCK_PATTERN = "\\$.*[,|](third-party|script|image|xmlhttprequest|subdocument|popup|doc|1p|3p).*";
+    
+    /**
      * Additional check for common programming/HTML constructs that should not be in rules
      */
     public static final String CODE_FRAGMENT_REGEX = "function\\s+\\w+\\s*\\(|\\breturn\\s+|\\bconsole\\.log|\\bvar\\s+|\\blet\\s+|\\bconst\\s+|\\bif\\s*\\(|\\belse\\s*\\{|\\bfor\\s*\\(|\\bwhile\\s*\\(|<\\/script>|<\\/div>|<\\/body>|<\\/html>|xhr\\.send\\(\\)|pageOptions|\\];?\\s*$";
