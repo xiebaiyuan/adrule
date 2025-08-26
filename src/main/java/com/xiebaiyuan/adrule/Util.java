@@ -294,16 +294,33 @@ public class Util {
      */
     public static boolean validRule(String rule, RuleType type) {
         // 预过滤：检查是否包含可疑内容
-        if (rule.contains("<") && rule.contains(">") ||
-            rule.contains("function") || rule.contains("return") ||
-            rule.contains("console.") || rule.contains("Copyright") ||
-            rule.contains("pageOptions") || rule.contains("xhr.send") ||
-            (rule.contains("{") && rule.contains("}")) ||
-            rule.contains("Rights Reserved") || rule.contains("Privacy Policy") ||
-            rule.contains("购买该域名") || rule.contains("More domains") ||
-            rule.contains("Seo.Domains") || rule.equals("];") || rule.startsWith("];") ||
-            (rule.startsWith("#") && rule.replace("#", "").trim().isEmpty())) {
-            return false;
+        // 对于正则规则（RuleType.REGEX）要放宽对花括号和带大量括号/分组的检查，
+        // 否则像 {1,2}、{15,} 这样的量词会被误判为代码片段而被过滤掉。
+        if (type != RuleType.REGEX) {
+            if (rule.contains("<") && rule.contains(">") ||
+                rule.contains("function") || rule.contains("return") ||
+                rule.contains("console.") || rule.contains("Copyright") ||
+                rule.contains("pageOptions") || rule.contains("xhr.send") ||
+                (rule.contains("{") && rule.contains("}")) ||
+                rule.contains("Rights Reserved") || rule.contains("Privacy Policy") ||
+                rule.contains("购买该域名") || rule.contains("More domains") ||
+                rule.contains("Seo.Domains") || rule.equals("];") || rule.startsWith("];") ||
+                (rule.startsWith("#") && rule.replace("#", "").trim().isEmpty())) {
+                return false;
+            }
+        } else {
+            // 针对正则规则仍需要过滤明显非规则的代码/HTML片段和垃圾内容
+            if (rule.contains("<") && rule.contains(">") ||
+                rule.contains("function") || rule.contains("return") ||
+                rule.contains("console.") || rule.contains("Copyright") ||
+                rule.contains("pageOptions") || rule.contains("xhr.send") ||
+                rule.contains("Rights Reserved") || rule.contains("Privacy Policy") ||
+                rule.contains("购买该域名") || rule.contains("More domains") ||
+                rule.contains("Seo.Domains") || rule.equals("];") || rule.startsWith("];") ||
+                (rule.startsWith("#") && rule.replace("#", "").trim().isEmpty())) {
+                return false;
+            }
+            // 注意：不要在这里拒绝包含花括号或长括号表达式的规则（这些通常是合法的正则量词/分组）。
         }
 
         // 特殊处理：AdGuard Home格式的正则表达式规则
@@ -398,6 +415,49 @@ public class Util {
     public static String clearRule(String content) {
         content = StrUtil.isNotBlank(content) ? StrUtil.trim(content) : StrUtil.EMPTY;
 
+    // 判断是否为正则表达式（以 '/' 开头），正则中会包含大量特殊符号和量词，
+    // 对这些符号的严格过滤会误伤合法正则规则，因此对正则放宽某些检查。
+    boolean isRegex = content.startsWith("/");
+
+        // 如果是正则，先判断是否为 URL 级别的正则（包含协议或 '://'），这类规则对 DNS 层无效，记录后丢弃
+        if (isRegex) {
+            // 规范化 escaped slash（\/ -> /）用于检测，例如 /^https:\/\/.../ 会被正确识别
+            String detect = content.replaceAll("\\\\/", "/");
+            if (detect.contains("://") || detect.matches("^/https?:/{2}.*")) {
+                try {
+                    // ensure directory exists
+                    File outDir = FileUtil.file(Constant.LOCAL_RULE_SUFFIX);
+                    if (!FileUtil.exist(outDir)) FileUtil.mkdir(outDir);
+                    File out = FileUtil.file(Constant.LOCAL_RULE_SUFFIX + File.separator + "filtered-http-regex.txt");
+                    if (!FileUtil.exist(out)) FileUtil.touch(out);
+                    FileUtil.appendUtf8String(content + StrUtil.CRLF, out);
+                } catch (Exception e) {
+                    log.warn("Failed to log filtered http regex: {} => {}", content, e.getMessage());
+                }
+                return StrUtil.EMPTY;
+            }
+
+            // 进一步检测：是否为域名后跟路径的正则（例如 doseofporn.com/... 或 idnes.cz/...），
+            // 这类规则实际是 URL 级别的（包含 path），对 DNS 层无效，应记录并丢弃
+            try {
+                java.util.regex.Pattern p = java.util.regex.Pattern.compile(".*[A-Za-z0-9\\-]+\\.[A-Za-z]{2,6}(/|/.*).*");
+                java.util.regex.Matcher m2 = p.matcher(detect);
+                if (m2.find()) {
+                    File outDir = FileUtil.file(Constant.LOCAL_RULE_SUFFIX);
+                    if (!FileUtil.exist(outDir)) FileUtil.mkdir(outDir);
+                    File out = FileUtil.file(Constant.LOCAL_RULE_SUFFIX + File.separator + "filtered-http-regex.txt");
+                    if (!FileUtil.exist(out)) FileUtil.touch(out);
+                    FileUtil.appendUtf8String(content + StrUtil.CRLF, out);
+                    return StrUtil.EMPTY;
+                }
+            } catch (Exception ignored) {}
+
+            // 严格过滤纯 IP 段/端口匹配的正则，这类规则对 AdGuardHome 意义有限，丢弃它们。
+            if (isPureIpRegex(content)) {
+                return StrUtil.EMPTY;
+            }
+        }
+
         // Basic validity check
         if (ReUtil.contains(Constant.EFFICIENT_REGEX, content)) {
             return StrUtil.EMPTY;
@@ -422,9 +482,11 @@ public class Util {
         }
         
         // Check for common non-rule patterns
-        if (content.contains("{") && content.contains("}") ||
-            content.contains("(") && content.contains(")") && content.length() > 30 ||
-            content.startsWith(".") || content.startsWith("#") && !content.startsWith("##") ||
+        // 对于普通规则，如果包含花括号或过长的带括号表达式，通常是代码片段或噪声，予以过滤。
+        // 但如果是正则（isRegex），这些符号通常合法（量词、分组等），不应直接过滤。
+        if ((!isRegex && content.contains("{") && content.contains("}")) ||
+            (!isRegex && content.contains("(") && content.contains(")") && content.length() > 30) ||
+            content.startsWith(".") || (content.startsWith("#") && !content.startsWith("##")) ||
             content.contains("JSON.parse") || content.contains("arguments.push") ||
             content.length() > 300) { // 一般规则不会太长
             return StrUtil.EMPTY;
@@ -491,6 +553,78 @@ public class Util {
             }
         }
         
+        return false;
+    }
+
+    /**
+     * 检测是否为纯 IP 或 IP:端口 的正则表达式模式
+     */
+    private static boolean isPureIpRegex(String rule) {
+        if (rule == null) return false;
+        String s = rule.trim();
+        // 去掉起始和结束的 /
+        if (s.startsWith("/")) {
+            int last = s.lastIndexOf('/');
+            if (last > 0) {
+                s = s.substring(1, last);
+            } else {
+                s = s.substring(1);
+            }
+        }
+
+        // 如果包含明显的 IP 字段（例如 104\.154\. 这种 escaped-dot 前面是数字），则视为 IP 风格
+        int ipSegmentCount = 0;
+        int from = 0;
+        while (true) {
+            int idx = s.indexOf("\\.", from); // 查找 "\."
+            if (idx < 0) break;
+            // 向前检查连续数字（1-3 位）
+            int j = idx - 1;
+            int digitCount = 0;
+            while (j >= 0 && Character.isDigit(s.charAt(j)) && digitCount <= 3) {
+                digitCount++;
+                j--;
+            }
+            if (digitCount >= 1 && digitCount <= 3) {
+                ipSegmentCount++;
+            }
+            from = idx + 2;
+        }
+        if (ipSegmentCount >= 2) {
+            // 检查是否含有异常长的任意字符量词，例如 ".{100,}"，如果存在则认为是可疑且丢弃
+            java.util.regex.Matcher m = java.util.regex.Pattern.compile("\\\\.\\{\\s*(\\d+)").matcher(s);
+            if (m.find()) {
+                try {
+                    int lower = Integer.parseInt(m.group(1));
+                    if (lower >= 10) { // 下界较大的量词（例如 >=10 或用户示例的 100）视为垃圾
+                        return true;
+                    }
+                } catch (NumberFormatException ignore) {
+                }
+            }
+            // 如果没有大下界量词，仅仅是纯 IP 段，也把它作为纯 IP 风格处理（可被丢弃）
+            return true;
+        }
+        // 归一化：把常见转义序列视作数字/标点（例如 \d -> 0， \\. -> .），并移除字符类内容
+        String norm = s.replaceAll("\\\\d", "0"); // \d -> 0
+        norm = norm.replaceAll("\\\\\\.", "."); // \. -> .
+        norm = norm.replaceAll("\\\\:", ":"); // \: -> :
+        // 移除字符类内容 [ ... ]，例如 [0-9] 或 [5-7]
+        norm = norm.replaceAll("\\[.*?\\]", "");
+        // 移除花括号量词内容 {1,3}
+        norm = norm.replaceAll("\\{.*?\\}", "");
+        // 移除非字母数字和点、冒号、连字符、竖线等符号
+        String filtered = norm.replaceAll("[^A-Za-z0-9.:-]", "");
+
+        int digits = 0, letters = 0;
+        for (char c : filtered.toCharArray()) {
+            if (Character.isDigit(c)) digits++;
+            if (Character.isLetter(c)) letters++;
+        }
+        if (digits > 4 && letters == 0 && filtered.contains(".")) {
+            return true;
+        }
+
         return false;
     }
     
