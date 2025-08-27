@@ -31,8 +31,6 @@ application:
       - 'https://easylist-downloads.adblockplus.org/antiadblockfilters.txt' # name: Remove anti-adblock warning rules
       - 'https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt' # name: XingShao AdRules DNS List
       # - 'https://raw.githubusercontent.com/xiebaiyuan/adrule/refs/heads/adrules/dns.txt' # name: catteam
-      # 这个作者好像有点恨百度 热榜都干了。
-      # - 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/AdGuard/Advertising/Advertising.txt' # name: AdGuard_blackmatrix7 merged
       - 'https://raw.githubusercontent.com/zsakvo/AdGuard-Custom-Rule/master/rule/zhihu.txt' # name: Zhihu standard version
       - 'https://raw.githubusercontent.com/timlu85/AdGuard-Home_Youtube-Adfilter/master/Youtube-Adfilter-Web.txt' # name: Youtube-Adfilter-Web
       - 'https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule.txt' # name: Autumn Wind ad rules, targeting Android ads
@@ -58,6 +56,15 @@ application:
       - 'https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/refs/heads/master/discretion/pcdn.txt' # name: anti-AD PCDN rules
       # Anti AD http dns
       - 'https://raw.githubusercontent.com/privacy-protection-tools/anti-AD/refs/heads/master/discretion/dns.txt' # name: anti-AD httpdns
+      # blackmatrix7 : AdGuard
+      #  - 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/AdGuard/Advertising/Advertising.txt' 
+      # blackmatrix7 : BlockHttpDNS
+      - 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/AdGuard/BlockHttpDNS/BlockHttpDNS.txt' 
+      # blackmatrix7 : Privacy
+      - 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/AdGuard/Privacy/Privacy.txt' 
+      # blackmatrix7 : AdvertisingMiTV
+      - 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/AdGuard/AdvertisingMiTV/AdvertisingMiTV.txt' 
+      
     # Local rules
     local: # Local rules please move files to the rule directory in the project path
       - 'mylist.txt'
