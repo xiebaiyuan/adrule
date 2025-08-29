@@ -13,7 +13,7 @@
 ################################################################################
 #                                                                              #
 # ⏰ 生成信息                                                                  #
-# 生成时间: 2025-08-28 20:16:08                                                    #
+# 生成时间: 2025-08-29 08:39:51                                                    #
 #                                                                              #
 # 📋 规则说明                                                                  #
 # • @@ 开头：白名单规则，表示允许访问                                        #
@@ -55,6 +55,7 @@
 @@||ad.ourgame.com
 @@||ad.ourgame.com^
 @@||ad.siemens.com.cn^
+@@||ad.vivo.com.cn^
 @@||adashx.ut.dingtalk.com^
 @@||adblock.adguard.com^
 @@||adcdn.pingan.com
@@ -64,11 +65,13 @@
 @@||admin.dable.io
 @@||admin.mailchimp.com^
 @@||ads.95516.com^
+@@||ads.alafish.cn^
 @@||ads.atmosphere.copernicus.eu^
 @@||ads.cdn.tvb.com^
 @@||ads.doordash.com^
 @@||ads.elevateplatform.co.uk^
 @@||ads.google.com^
+@@||ads.lingxing.com^
 @@||ads.listonic.com^
 @@||ads.microsoft.com^
 @@||ads.midwayusa.com^
@@ -468,6 +471,6 @@
 @@||zm.sm-tc.cn^$important
 
 ################################################################################
-# 总规则数: 443 条                                                                  #
+# 总规则数: 446 条                                                                  #
 # 生成工具: ADG-Rule Engine                                                    #
 ################################################################################
