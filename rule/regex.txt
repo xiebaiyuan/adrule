@@ -18,19 +18,19 @@
 # License: MIT License                                                         #
 #                                                                              #
 # ⏰ Generation Information                                                   #
-# Generated Time: 2025-08-30 20:13:44                                       #
-# Processing Time: 15120ms                                         #
-# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1640MB            #
+# Generated Time: 2025-08-31 08:43:19                                       #
+# Processing Time: 14218ms                                         #
+# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 826MB            #
 #                                                                              #
 # 📊 Statistics Information                                                   #
 # Upstream Sources: 36 sources                                      #
-# Total Rules: 465838 rules                                          #
-# Domain Rules: 197770 rules                                         #
+# Total Rules: 466020 rules                                          #
+# Domain Rules: 197949 rules                                         #
 # Regex Rules: 76 rules                                          #
 # Hosts Rules: 20047 rules                                          #
-# Modifier Rules: 247945 rules                                       #
-# AdGuardHome Rules: 197846 rules                                     #
-# Deduplication Rate: 50.20%                                        #
+# Modifier Rules: 247948 rules                                       #
+# AdGuardHome Rules: 198025 rules                                     #
+# Deduplication Rate: 50.24%                                        #
 # Current File: #  1. https://raw.githubusercontent.com/durablenapkin/scamblocklist/refs/... #
 #  2. https://someonewhocares.org/hosts/zero/hosts                           #
 #  3. https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplu... #
