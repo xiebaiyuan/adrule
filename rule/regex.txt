@@ -18,19 +18,19 @@
 # License: MIT License                                                         #
 #                                                                              #
 # ⏰ Generation Information                                                   #
-# Generated Time: 2025-08-31 20:14:26                                       #
-# Processing Time: 14167ms                                         #
-# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1050MB            #
+# Generated Time: 2025-09-01 08:50:19                                       #
+# Processing Time: 14140ms                                         #
+# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1444MB            #
 #                                                                              #
 # 📊 Statistics Information                                                   #
 # Upstream Sources: 36 sources                                      #
-# Total Rules: 466151 rules                                          #
-# Domain Rules: 198072 rules                                         #
+# Total Rules: 466307 rules                                          #
+# Domain Rules: 198217 rules                                         #
 # Regex Rules: 76 rules                                          #
-# Hosts Rules: 20047 rules                                          #
-# Modifier Rules: 247956 rules                                       #
-# AdGuardHome Rules: 198148 rules                                     #
-# Deduplication Rate: 50.24%                                        #
+# Hosts Rules: 20048 rules                                          #
+# Modifier Rules: 247966 rules                                       #
+# AdGuardHome Rules: 198293 rules                                     #
+# Deduplication Rate: 50.26%                                        #
 # Current File: #  1. https://raw.githubusercontent.com/durablenapkin/scamblocklist/refs/... #
 #  2. https://someonewhocares.org/hosts/zero/hosts                           #
 #  3. https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplu... #
