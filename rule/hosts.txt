@@ -18,19 +18,19 @@
 # License: MIT License                                                         #
 #                                                                              #
 # ⏰ Generation Information                                                   #
-# Generated Time: 2025-09-03 20:16:16                                       #
-# Processing Time: 14149ms                                         #
-# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1754MB            #
+# Generated Time: 2025-09-04 08:38:18                                       #
+# Processing Time: 14150ms                                         #
+# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1938MB            #
 #                                                                              #
 # 📊 Statistics Information                                                   #
 # Upstream Sources: 35 sources                                      #
-# Total Rules: 473373 rules                                          #
-# Domain Rules: 202076 rules                                         #
+# Total Rules: 473495 rules                                          #
+# Domain Rules: 202188 rules                                         #
 # Regex Rules: 76 rules                                          #
-# Hosts Rules: 20048 rules                                          #
-# Modifier Rules: 251173 rules                                       #
-# AdGuardHome Rules: 202152 rules                                     #
-# Deduplication Rate: 49.80%                                        #
+# Hosts Rules: 20049 rules                                          #
+# Modifier Rules: 251182 rules                                       #
+# AdGuardHome Rules: 202264 rules                                     #
+# Deduplication Rate: 49.81%                                        #
 # Current File: #  1. https://raw.githubusercontent.com/durablenapkin/scamblocklist/refs/... #
 #  2. https://someonewhocares.org/hosts/zero/hosts                           #
 #  3. https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplu... #
@@ -5172,6 +5172,7 @@
 0.0.0.0 guiltygear.fr
 0.0.0.0 gv-1nt3rc.com
 0.0.0.0 gwallet.com
+0.0.0.0 gwene.com.slackware.alien.blog
 0.0.0.0 gwklaser.fr
 0.0.0.0 gyros.es
 0.0.0.0 h-adashx.ut.taobao.com
