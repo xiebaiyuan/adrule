@@ -4,6 +4,7 @@ DOMAIN-SUFFIX,log2-misc-lf.amemv.com,REJECT-DICT
 DOMAIN-SUFFIX,log3-misc-lf.amemv.com,REJECT-DICT 
 DOMAIN-SUFFIX,log4-misc-lf.amemv.com,REJECT-DICT 
 DOMAIN-SUFFIX,log5-misc-lf.amemv.com,REJECT-DICT 
+DOMAIN-SUFFIX,data.bilibili.com,REJECT-DICT
 DOMAIN-SUFFIX,dataflow.biliapi.com,REJECT-DICT
 DOMAIN-SUFFIX,mon11-misc-lf.fqnovel.com,REJECT-DICT
 DOMAIN-SUFFIX,polaris3-normal-hl.zijieapi.com,REJECT-DICT
