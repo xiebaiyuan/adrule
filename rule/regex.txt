@@ -18,18 +18,18 @@
 # License: MIT License                                                         #
 #                                                                              #
 # ⏰ Generation Information                                                   #
-# Generated Time: 2025-09-04 08:38:17                                       #
-# Processing Time: 14150ms                                         #
-# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1062MB            #
+# Generated Time: 2025-09-04 17:57:09                                       #
+# Processing Time: 14120ms                                         #
+# System Info: Java 17.0.16 | CPU Cores: 4 | Memory: 1676MB            #
 #                                                                              #
 # 📊 Statistics Information                                                   #
 # Upstream Sources: 35 sources                                      #
-# Total Rules: 473495 rules                                          #
-# Domain Rules: 202188 rules                                         #
+# Total Rules: 473593 rules                                          #
+# Domain Rules: 202277 rules                                         #
 # Regex Rules: 76 rules                                          #
 # Hosts Rules: 20049 rules                                          #
-# Modifier Rules: 251182 rules                                       #
-# AdGuardHome Rules: 202264 rules                                     #
+# Modifier Rules: 251191 rules                                       #
+# AdGuardHome Rules: 202353 rules                                     #
 # Deduplication Rate: 49.81%                                        #
 # Current File: #  1. https://raw.githubusercontent.com/durablenapkin/scamblocklist/refs/... #
 #  2. https://someonewhocares.org/hosts/zero/hosts                           #
