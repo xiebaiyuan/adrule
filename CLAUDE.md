@@ -11,7 +11,9 @@
 ### `ci` — 工具脚本 + CI 配置
 - 存所有支撑脚本、CI workflow、配置文件
 - 包含：
-  - `scripts/convert.py` — 规则格式转换器
+  - `scripts/convert.py` — 文本格式转换 (Surge/Clash/Loon/Quantumult X/dnsmasq/smartdns/EasyList/domains + MD5)
+  - `scripts/convert-binary.sh` — 二进制格式转换 (sing-box .srs, mihomo .mrs + MD5)
+  - `scripts/audit-formats.py` — 格式完整性审计，对比 anti-AD + Cats-Team AdRules 标准
   - `scripts/hostlist-compiler-retry.sh` — hostlist-compiler 重试包装
   - `config/hostlist-compiler.json` — compiler 配置文件
   - `.github/workflows/auto-update.yml` — CI workflow
@@ -25,12 +27,39 @@
 
 ## 项目概览
 
-聚合 14 个上游 AdGuard 订阅列表 → hostlist-compiler 去重/过滤 → 转成多种格式（Surge、Clash、Loon、Quantumult X、dnsmasq、smartdns、AdGuard Home、纯域名列表）。
+聚合 14 个上游 AdGuard 订阅列表 → hostlist-compiler 去重/过滤 → 转成 12 种格式。
 
 CI 流程：
 1. hostlist-compiler 编译 → `rule/adgh.txt`
-2. `convert.py` 转其他格式
-3. push 到 main 分支
+2. `convert.py` 转文本格式 + MD5
+3. `convert-binary.sh` 转二进制格式 (.srs/.mrs) + MD5
+4. `audit-formats.py --ci-warn` 审计格式完整性
+5. push 到 main 分支
+
+## 格式对齐
+
+产出能力对齐 [anti-AD](https://github.com/privacy-protection-tools/anti-AD) + [Cats-Team AdRules](https://github.com/Cats-Team/AdRules)。
+
+| 分类 | 文件 | 生成方式 |
+|------|------|---------|
+| Adblock+ | `easylist.list` + `.md5` | `convert.py` |
+| AdGuard hostlist | `adgh.txt` + `.md5` | hostlist-compiler (原始输出) |
+| Clash / Mihomo | `clash.yaml` | `convert.py` |
+| dnsmasq | `dnsmasq.conf` | `convert.py` |
+| 纯域名列表 | `domains.txt` + `.md5` | `convert.py` |
+| Loon | `loon.list` | `convert.py` |
+| Quantumult X | `quanx.list` | `convert.py` |
+| SmartDNS | `smartdns.conf` | `convert.py` |
+| Surge DOMAIN-SUFFIX | `surge.list` | `convert.py` |
+| Surge DOMAIN-SET | `surge2.list` | `convert.py` |
+| sing-box (.srs) | `adrules-singbox.srs` + `.md5` | `convert-binary.sh` |
+| mihomo (.mrs) | `adrules-mihomo.mrs` + `.md5` | `convert-binary.sh` |
+
+### 对齐保障
+
+- CI 每次更新自动运行 `audit-formats.py --ci-warn`
+- 缺格式报 warning + 提示修复命令
+- 新增格式只需在 `audit-formats.py` 的 `EXPECTED` 列表加一行
 
 ## 工作目录
 

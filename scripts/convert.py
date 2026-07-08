@@ -249,6 +249,8 @@ def main():
     write_easylist(str(adgh), str(rule_dir / 'easylist.list'))
 
     write_md5(str(rule_dir / 'easylist.list'))
+    write_md5(str(rule_dir / 'adgh.txt'))
+    write_md5(str(rule_dir / 'domains.txt'))
 
 
 if __name__ == '__main__':
