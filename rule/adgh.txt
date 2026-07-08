@@ -2,7 +2,7 @@
 ! Title: adrule source validation
 ! Description: Validate sources defined in application.yml with AdGuard HostlistCompiler
 ! Homepage: https://github.com/xiebaiyuan/adrule
-! Last modified: 2026-07-08T08:33:41.113Z
+! Last modified: 2026-07-08T09:50:48.041Z
 !
 ! Compiled by @adguard/hostlist-compiler v2.1.0
 !
@@ -1066,6 +1066,11 @@
 ||view.atdmt.com^
 ||weus2watcab01.blob.core.windows.net^
 ||weus2watcab02.blob.core.windows.net^
+!
+! Source name: AdGuard Base
+! Source: https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_2_Base/filter.txt
+!
+||injusticebakery.com^
 ||api-ao.adison.co^
 ||config.htplayground.com^
 ||api.clickaine.com^
@@ -1389,7 +1394,13 @@ rgmechanicsgames.com*VPN.exe
 .728x90-
 .900x100.
 ||clingertoxins.shop^
+||cqisidohiplpc.space^
+||ctsunpcmtdozi.site^
+||ddqeytzglqzhv.space^
+||hhveamgnjqayj.space^
 ||macro.adnami.io^
+||modroamjaderdpj.com^
+||nemospontoobliged.cyou^
 ||oazkpymbsfmxo.site^
 ||paid.outbrain.com^
 ||qsxupcszqqmnr.online^
