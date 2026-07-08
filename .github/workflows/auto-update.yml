@@ -1,0 +1,155 @@
+---
+# yamllint disable rule:line-length
+name: Update Filters
+on:
+  push:
+    branches: [ ci ]
+  schedule:
+    # Twice daily at 6AM/6PM CST — sources: 14
+    - cron: 0 6,18 * * *
+  workflow_dispatch:
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  Update_Filters:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: ci
+          ref: ci
+
+      - uses: actions/checkout@v4
+        with:
+          path: main
+          ref: main
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install hostlist-compiler
+        run: npm install -g @adguard/hostlist-compiler
+
+      - name: Run HostlistCompiler (retry + CDN fallback)
+        working-directory: ci
+        run: |
+          bash scripts/hostlist-compiler-retry.sh \
+            config/hostlist-compiler.json \
+            ../main/rule/adgh-hostlistcompiler.txt
+
+      - name: Replace adgh.txt with hostlist-compiler validated output
+        working-directory: main
+        run: |
+          cp rule/adgh-hostlistcompiler.txt rule/adgh.txt
+
+      - name: Convert to rule formats (Surge, Loon, Clash, domains)
+        working-directory: main
+        run: python3 ../ci/scripts/convert.py
+
+      - name: Inject HostlistCompiler statistics
+        working-directory: main
+        run: |
+          FILE="rule/adgh-hostlistcompiler.txt"
+          if [ ! -f "$FILE" ]; then
+            echo "HostlistCompiler output not found, skipping stats"
+            exit 0
+          fi
+
+          # Count rules
+          total=$(grep -v '^!' "$FILE" | grep -v '^[[:space:]]*$' | wc -l | tr -d ' ')
+          block=$(grep -c '^||' "$FILE" || echo 0)
+          allow=$(grep -c '^@@' "$FILE" || echo 0)
+          regex=$(grep -c '^/' "$FILE" || echo 0)
+          badfilter=$(grep -c '\$badfilter' "$FILE" || echo 0)
+          sources=$(grep -c '^! Source name:' "$FILE" || echo 0)
+
+          echo "=== HostlistCompiler Statistics ==="
+          echo "  Total rules   : $total"
+          echo "  Block  (||)   : $block"
+          echo "  Allow  (@@)   : $allow"
+          echo "  Regex  (//)   : $regex"
+          echo "  Badfilter     : $badfilter"
+          echo "  Sources       : $sources"
+
+          # Inject stats block right after the "Compiled by" header line
+          awk -v total="$total" -v block="$block" -v allow="$allow" \
+              -v regex="$regex" -v badfilter="$badfilter" -v sources="$sources" '
+            /^! Compiled by @adguard\/hostlist-compiler/ {
+              print
+              getline; print   # the trailing ! after "Compiled by"
+              print "!"
+              print "! === AdGuard HostlistCompiler Statistics ==="
+              printf "! %-22s %s\n", "Total Rules:",   total
+              printf "! %-22s %s\n", "Block Rules (||):", block
+              printf "! %-22s %s\n", "Allow Rules (@@):", allow
+              printf "! %-22s %s\n", "Regex Rules:",   regex
+              printf "! %-22s %s\n", "Badfilter Rules:", badfilter
+              printf "! %-22s %s\n", "Sources:",       sources
+              print "! ==========================================="
+              print "!"
+              next
+            }
+            { print }
+          ' "$FILE" > "${FILE}.tmp" && mv "${FILE}.tmp" "$FILE"
+
+          echo "HC_TOTAL=${total}" >> "$GITHUB_ENV"
+
+      - name: Generate Commit Message
+        id: genmsg
+        working-directory: main
+        run: |
+          STATS_FILE="rule/adgh.txt"
+          if [ ! -f "$STATS_FILE" ]; then
+            echo "msg=rules: update (no adgh.txt)" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          extract() { grep -c '^||' "$STATS_FILE"; }
+          total=$(extract)
+          allow=$(grep -c '^@@' "$STATS_FILE" || echo 0)
+          hc_total="${HC_TOTAL:-N/A}"
+
+          msg="chore: update rules — ${total} blocks (${allow} exceptions), hc=${hc_total}"
+          echo "msg=${msg}" >> $GITHUB_OUTPUT
+          echo "Commit message: ${msg}"
+
+      - name: Commit Changes
+        id: commit
+        working-directory: main
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+              exit 0
+          else
+            echo "status=success" >> $GITHUB_OUTPUT
+            git add .
+            git config --local user.email "action@github.com"
+            git config --local user.name "actions"
+            if [ -n "${{ steps.genmsg.outputs.msg }}" ]; then
+              git commit -m "${{ steps.genmsg.outputs.msg }}" -a
+            else
+              git commit -m "chore(rules): automated update" -a
+            fi
+          fi
+
+      - name: GitHub Push
+        if: steps.commit.outputs.status == 'success' && !cancelled()
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          branch: main
+          directory: main
+
+      - name: Mirror Refresh
+        run: sleep 10 && curl 'https://purge.jsdelivr.net/gh/${{github.repository}}/rule'
+
+      - name: Delete Workflow Runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 1
+          keep_minimum_runs: 1
