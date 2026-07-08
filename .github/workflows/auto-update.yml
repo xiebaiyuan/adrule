@@ -63,6 +63,7 @@ jobs:
           echo "/opt/ci-tools" >> "$GITHUB_PATH"
 
       - name: Convert to binary rule-sets (sing-box .srs, mihomo .mrs)
+        working-directory: main
         run: bash ../ci/scripts/convert-binary.sh ${{ github.workspace }}/main/rule
 
       - name: Audit format coverage
