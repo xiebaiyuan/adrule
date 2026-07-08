@@ -7,11 +7,14 @@ exception rules (@@), and produces:
   - surge.list / loon.list    DOMAIN-SUFFIX,domain
   - clash.yaml               YAML payload
   - domains.txt              plain domain list
+  - easylist.list            pass-through adblock+ syntax (EasyList-compatible)
+
+Also generates MD5 checksums for key files.
 
 Usage: python3 scripts/convert.py <rule_dir>
 """
 
-import re, sys, os, argparse
+import hashlib, re, sys, os, argparse
 from datetime import datetime
 from pathlib import Path
 
@@ -137,6 +140,71 @@ def write_domains(domains: list[str], path: str):
             f.write(f'{d}\n')
 
 
+def write_easylist(adgh_path: str, output_path: str):
+    """EasyList-compatible pass-through — keeps block (||), exception (@@), and regex (//) rules.
+
+    Unlike other writers (which extract only block domains), easylist
+    preserves the full adblock+ syntax including exception rules and
+    regex patterns, making it usable in AdGuardHome, uBlock Origin,
+    AdBlock, and other EasyList-compatible blockers.
+    """
+    block_count = 0
+    exception_count = 0
+    regex_count = 0
+
+    with open(output_path, 'w', encoding='utf-8') as out:
+        # Write header
+        out.write('[Adblock Plus 3.0]\n')
+        out.write('! Title: adrule (EasyList-compatible)\n')
+        out.write('! Description: Adblock+ rule set generated from adrule — block domains\n')
+        out.write(f'! Last modified: {datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]}Z\n')
+        out.write('! Homepage: https://github.com/xiebaiyuan/adrule\n')
+        out.write('!\n')
+
+        # Pass through selected rules from adgh.txt
+        with open(adgh_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                raw = line.strip()
+                if not raw or raw.startswith('!') or raw.startswith('#'):
+                    continue
+
+                # Exception rule: @@||domain^
+                if raw.startswith('@@') and '||' in raw:
+                    out.write(raw + '\n')
+                    exception_count += 1
+                    continue
+
+                # Regex rule: /pattern/
+                if raw.startswith('/') and raw.endswith('/'):
+                    out.write(raw + '\n')
+                    regex_count += 1
+                    continue
+
+                # Block rule: ||domain^
+                if raw.startswith('||') and raw.endswith('^'):
+                    out.write(raw + '\n')
+                    block_count += 1
+                    continue
+
+        total = block_count + exception_count + regex_count
+        out.write(f'\n! Total: {total} rules ({block_count} block, {exception_count} exception, {regex_count} regex)\n')
+
+    print(f'  → easylist.list ({total} rules — {block_count}B/{exception_count}E/{regex_count}R)')
+
+
+def write_md5(path: str) -> str | None:
+    """Generate .md5 file alongside a rule file. Returns the hex digest."""
+    md5_path = path + '.md5'
+    if not os.path.isfile(path):
+        return None
+    with open(path, 'rb') as f:
+        digest = hashlib.md5(f.read()).hexdigest()
+    with open(md5_path, 'w') as f:
+        f.write(f'{digest}  {os.path.basename(path)}\n')
+    print(f'  → {os.path.basename(md5_path)} ({digest})')
+    return digest
+
+
 def main():
     parser = argparse.ArgumentParser(description='Convert adgh.txt to rule formats')
     parser.add_argument('rule_dir', nargs='?', default='rule',
@@ -177,6 +245,10 @@ def main():
 
     write_domains(domains, str(rule_dir / 'domains.txt'))
     print(f'  → domains.txt ({len(domains)} domains)')
+
+    write_easylist(str(adgh), str(rule_dir / 'easylist.list'))
+
+    write_md5(str(rule_dir / 'easylist.list'))
 
 
 if __name__ == '__main__':
