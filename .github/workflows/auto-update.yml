@@ -54,19 +54,16 @@ jobs:
       - name: Install sing-box & mihomo for binary rule-sets
         run: |
           sudo mkdir -p /opt/ci-tools
-          # sing-box v1.11.11
           curl -sL "https://github.com/SagerNet/sing-box/releases/download/v1.11.11/sing-box-1.11.11-linux-amd64.tar.gz" | \
             sudo tar -xz -C /opt/ci-tools --strip-components=1 sing-box-1.11.11-linux-amd64/sing-box
           sudo chmod +x /opt/ci-tools/sing-box
-          # mihomo v1.19.20
           curl -sL "https://github.com/MetaCubeX/mihomo/releases/download/v1.19.20/mihomo-linux-amd64-v1.19.20.gz" | \
             sudo gzip -d > /opt/ci-tools/mihomo
           sudo chmod +x /opt/ci-tools/mihomo
           echo "/opt/ci-tools" >> "$GITHUB_PATH"
 
       - name: Convert to binary rule-sets (sing-box .srs, mihomo .mrs)
-        working-directory: main
-        run: bash ../ci/scripts/convert-binary.sh
+        run: bash ../ci/scripts/convert-binary.sh ${{ github.workspace }}/main/rule
 
       - name: Audit format coverage
         working-directory: main
